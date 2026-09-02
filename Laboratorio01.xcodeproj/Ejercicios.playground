@@ -260,3 +260,62 @@ print("Hay \(v + 3) alumnos")       // PREDICT 6c: Hay 8 alumnos
 let p1 = 100.0
 let d = 0.15
 print("Descuento: S/. \(p1 * d)") // PREDICT 6d: Descuento: S/. 15.0
+
+// ==========================================
+// ===== EJERCICIO 4: INVESTIGACIÓN Y CONVERSIONES =====
+// ==========================================
+
+// ===== 4.1 — Conversiones de tipo =====
+// ===== TODO 20: Completa las conversiones =====
+// Docente: Juan León
+let entero = 42
+let decimal = 9.99
+let texto = "150"
+let textoInvalido = "hola"
+
+// TODO: Convierte 'entero' a Double
+let enteroADouble = Double(entero)
+print(enteroADouble) // Tiene el valor 42.0
+
+// TODO: Convierte 'decimal' a Int
+let decimalAEntero = Int(decimal)
+print(decimalAEntero) // PREDICT 7: Tiene el valor 9 (trunca los decimales, no redondea)
+
+// TODO: Convierte 'texto' a Int
+let textoAEntero = Int(texto)
+print(textoAEntero) // PREDICT 8: Imprime Optional(150)
+
+// TODO: Convierte 'textoInvalido' a Int
+let invalido = Int(textoInvalido)
+print(invalido) // PREDICT 9: Imprime nil (no se puede convertir letras a número)
+
+
+// ===== 4.2 — Ejercicio de investigación =====
+// ===== INVESTIGACIÓN =====
+// Docente: Juan León
+
+// TODO 21: ¿Cómo se redondea un Double a 2 decimales en Swift?
+// Ejemplo: 3.14159 debería mostrarse como 3.14
+// Explicación: Usamos String(format: "%.2f", numero) para formatear el valor a 2 decimales en texto, o .rounded() si se requiere operar matemáticamente.
+let numeroPi = 3.14159
+let piFormateado = String(format: "%.2f", numeroPi)
+print("Pi a 2 decimales: \(piFormateado)")
+
+
+// TODO 22: ¿Qué hace el operador += en Swift?
+// Explicación: Es un operador de asignación compuesta. Suma el valor de la derecha a la variable existente y asigna el resultado directamente en ella.
+
+// Ejemplo 1: Incrementar un contador
+var x = 10
+x += 5 // Equivalente a: x = x + 5 (Resultado: 15)
+print("Ejemplo 1 (x): \(x)")
+
+// Ejemplo 2: Concatenar cadenas de texto
+var saludo = "Hola"
+saludo += " Mundo" // Resultado: "Hola Mundo"
+print("Ejemplo 2 (saludo): \(saludo)")
+
+// Ejemplo 3: Acumular puntos en un juego
+var puntaje = 100
+puntaje += 50 // Resultado: 150
+print("Ejemplo 3 (puntaje): \(puntaje)")
