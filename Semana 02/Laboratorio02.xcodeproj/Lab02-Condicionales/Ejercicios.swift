@@ -550,3 +550,78 @@ if precioBase1 <= 0 || precioBase2 <= 0 || precioBase3 <= 0 || cantidad1 <= 0 ||
     // Muestra el cierre decorativo de la sección del ticket
     print("====================================")
 }
+
+// ===== EJERCICIO 7: JUEGO DE ADIVINANZA — CON IA =====
+
+// --- 17. Definición del número secreto ---
+// Declara el número objetivo constante que el usuario intentará adivinar durante el juego
+let numeroSecreto = 42
+
+// --- 18. Simular 5 intentos con variables ---
+// Declara el primer intento asignándole un valor entero simulado de prueba
+let intento1 = 20
+// Declara el segundo intento asignándole un valor entero simulado de prueba
+let intento2 = 50
+// Declara el tercer intento asignándole un valor entero simulado de prueba
+let intento3 = 35
+// Declara el cuarto intento asignándole un valor entero simulado de prueba
+let intento4 = 42
+// Declara el quinto intento asignándole un valor entero simulado de prueba
+let intento5 = 10
+
+// Almacena en un arreglo los intentos para poder iterar sobre ellos usando el bucle while
+let listaIntentos = [intento1, intento2, intento3, intento4, intento5]
+
+// Variable de control para iterar a través de los índices del arreglo listaIntentos
+var indice = 0
+// Contador que registrará el número de intentos realizados válidos
+var intentosRealizados = 0
+// Variable booleana que registrará si el jugador logró acertar el número secreto
+var adivinoCorrectamente = false
+
+
+// --- 19. Usar bucle while para recorrer los intentos ---
+// Ejecuta el ciclo mientras queden intentos en el arreglo y el jugador no haya acertado aún
+while indice < listaIntentos.count && !adivinoCorrectamente {
+    
+    // Extrae el valor numérico del intento actual de acuerdo a la posición del índice
+    let intentoActual = listaIntentos[indice]
+    // Incrementa en 1 la cantidad de intentos consumidos
+    intentosRealizados += 1
+    
+    // Muestra en consola el número de intento actual y el valor ingresado
+    print("Intento \(intentosRealizados): Probando con \(intentoActual)")
+    
+    // --- 20. Comparación de valores y respuesta del juego ---
+    // Evalúa si el intento actual es exactamente igual al número secreto guardado
+    if intentoActual == numeroSecreto {
+        // Indica en consola que la respuesta ingresada es correcta
+        print("-> ¡Correcto!")
+        // Cambia el estado a verdadero para detener las iteraciones del bucle while
+        adivinoCorrectamente = true
+    // Evalúa si el número ingresado supera en valor al número secreto objetivo
+    } else if intentoActual > numeroSecreto {
+        // Notifica al usuario que su estimación está por encima del número objetivo
+        print("-> Muy alto")
+    // Se ejecuta si el número ingresado es estrictamente menor al número secreto
+    } else {
+        // Notifica al usuario que su estimación está por debajo del número objetivo
+        print("-> Muy bajo")
+    }
+    
+    // Incrementa el índice para pasar al siguiente intento en la próxima iteración del ciclo
+    indice += 1
+}
+
+
+// --- 21 y 22. Evaluación del resultado final del juego ---
+// Comprueba si el jugador adivinó con éxito antes de agotar la cantidad de intentos
+if adivinoCorrectamente {
+    // --- 21. Mostrar cuántos intentos necesitó ---
+    // Imprime en pantalla el total de intentos utilizados para ganar el juego
+    print("¡Felicidades! Adivinaste en \(intentosRealizados) intento(s).")
+} else {
+    // --- 22. Notificación de derrota si falló en los 5 intentos ---
+    // Informa que el jugador perdió y revela cuál era el número secreto fijado
+    print("Perdiste. El número era: \(numeroSecreto)")
+}
