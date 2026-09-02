@@ -1,0 +1,89 @@
+import UIKit
+
+// ===== EJERCICIO 1: VARIABLES Y CONSTANTES =====
+// Docente : Juan León
+// --- Ejemplo (ya resuelto): ---
+let nombreProfesor = "Juan Leon"
+var puntosProfesor = 100
+print("Profesor: \(nombreProfesor), puntos: \(puntosProfesor)")
+
+// --- TODO 1: Declara una CONSTANTE con tu nombre completo ---
+let nombreCompleto = "Calep Omar Neyra Taype"
+
+// --- TODO 2: Declara una VARIABLE con tu edad ---
+var edad = 20
+
+// --- TODO 3: Declara una CONSTANTE con tu estatura (Double) ---
+let estatura: Double = 1.72
+
+// --- TODO 4: Declara una VARIABLE Bool: ¿trabajas actualmente? ---
+var trabaja: Bool = false
+
+// --- TODO 5: Declara una CONSTANTE con tu número de celular como String ---
+let celular: String = "987654321"
+
+// --- TODO 6: Imprime TODAS tus variables con print() ---
+print("Nombre: \(nombreCompleto), Edad: \(edad), Estatura: \(estatura), Trabaja: \(trabaja), Celular: \(celular)")
+
+
+// ===== 1.2 — Corregir errores =====
+// ===== FIX: Este código tiene 4 errores. Encuéntralos y corrígelos
+// Docente: Juan León
+
+// FIX 1: 'let' define una constante que no puede cambiar su valor. Para reasignar se debe usar 'var'.
+var puntaje = 50
+puntaje = 80
+
+// FIX 2: No se puede declarar dos veces una variable con 'var' en el mismo ámbito. Se usa solo el nombre para reasignar.
+var nombre = "Ana"
+nombre = "María"
+
+// FIX 3: El valor 29.99 es decimal (Double) y se estaba tipando estrictamente como entero (Int).
+let precio: Double = 29.99
+
+// FIX 4: El valor "true" entre comillas es un texto (String), un booleano va sin comillas.
+var activo: Bool = true
+
+
+// ===== 1.3 — Predicciones =====
+// ===== PREDICT: ¿Qué imprime cada línea? =====
+// Docente: Juan León
+
+let x = 10
+var y = 20
+y = y + x
+print(y) // PREDICT 1: Imprime 30
+
+let a = "Hola"
+let b = "Mundo"
+print(a + " " + b) // PREDICT 2: Imprime Hola Mundo
+
+var contador = 0
+contador = contador + 1
+contador = contador + 1
+contador = contador + 1
+print(contador) // PREDICT 3: Imprime 3
+
+let entero = 7
+let decimal = Double(entero)
+print(type(of: decimal)) // PREDICT 4: Imprime Double
+
+
+// ===== 1.4 — Inferencia de tipos =====
+// ===== TODO: Declara estas variables SIN escribir el tipo =====
+
+// TODO 7: Una variable con el valor 2026
+let anio = 2026
+print(type(of: anio)) // Infirió Int
+
+// TODO 8: Una variable con el valor 72.5
+let peso = 72.5
+print(type(of: peso)) // Infirió Double
+
+// TODO 9: Una variable con el valor "Lima"
+let ciudad = "Lima"
+print(type(of: ciudad)) // Infirió String
+
+// TODO 10: Una variable con el valor false
+let matriculado = false
+print(type(of: matriculado)) // Infirió Bool
