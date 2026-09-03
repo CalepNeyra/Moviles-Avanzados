@@ -131,7 +131,7 @@ if diasAtraso >= 10 {
 }
 
 // 9. RESUMEN FINAL
-print("\n================ RESUMEN ================")
+print("\n================ TARIFA DE COBRANZA DEL PRESTAMOS DE LIBROS ================")
 print("Libro:             \(titulo)")
 print("Usuario:           \(tipoNombre)")
 print("-----------------------------------------")
