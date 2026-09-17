@@ -108,3 +108,70 @@ struct TransbordoRed {
     let referenciaUbicacion: String
     let tiempoEstimadoMin: Int
 }
+// ============================================================================
+// 5. GESTOR CENTRAL DE LA RED
+// ============================================================================
+class GestorRedTransporte {
+    var lineasRed: [LineaTransporte] = []
+    var listaTransbordos: [TransbordoRed] = []
+    
+    func registrarLinea(_ linea: LineaTransporte) { lineasRed.append(linea) }
+    func registrarTransbordo(_ transbordo: TransbordoRed) { listaTransbordos.append(transbordo) }
+    
+    var todasLasEstaciones: [EstacionRed] {
+        return lineasRed.flatMap { $0.paraderos }
+    }
+    
+    func consultarParadero(_ patron: String) -> [(estacion: EstacionRed, tarifa: Double)] {
+        var lista: [(estacion: EstacionRed, tarifa: Double)] = []
+        let eEncontradas = todasLasEstaciones.filter { $0.nombre.lowercased().contains(patron.lowercased()) }
+        
+        for e in eEncontradas {
+            let tarifa = lineasRed.first(where: { $0.denominacion == e.lineaPertenencia })?.tarifaAdulto ?? 0.0
+            lista.append((e, tarifa))
+        }
+        return lista
+    }
+    
+    func planificarRutaADestino(_ destinoBuscado: String) -> [(estacion: EstacionRed, hitoEncontrado: String, tarifaAdulto: Double, tarifaMedio: Double)] {
+        var coincidencias: [(estacion: EstacionRed, hitoEncontrado: String, tarifaAdulto: Double, tarifaMedio: Double)] = []
+        let termino = destinoBuscado.lowercased()
+        
+        for estacion in todasLasEstaciones {
+            let linea = lineasRed.first(where: { $0.denominacion == estacion.lineaPertenencia })
+            let tAdulto = linea?.tarifaAdulto ?? 0.0
+            let tMedio = linea?.tarifaMedio ?? 0.0
+            
+            if estacion.nombre.lowercased().contains(termino) {
+                coincidencias.append((estacion, "Coincidencia directa de estación", tAdulto, tMedio))
+            } else {
+                for hito in estacion.puntosInteres {
+                    if hito.lowercased().contains(termino) {
+                        coincidencias.append((estacion, hito, tAdulto, tMedio))
+                    }
+                }
+            }
+        }
+        return coincidencias
+    }
+    
+    func obtenerPorEstado(_ estadoBuscado: EstadoServicio) -> [EstacionRed] {
+        return todasLasEstaciones.filter { $0.estado == estadoBuscado }
+    }
+    
+    func obtenerConAccesoElevador() -> [EstacionRed] {
+        return todasLasEstaciones.filter { $0.accesoDiscapacidad }
+    }
+    
+    func desplegarTransbordos() {
+        print("\n==========================================")
+        print("🔗 PUNTOS DE TRANSBORDO E INTERCAMBIO".negrita.cian)
+        print("==========================================")
+        for t in listaTransbordos {
+            print("• \(t.origenLinea.cian) (\(t.origenEstacion)) ⇄ \(t.destinoLinea.cian) (\(t.destinoEstacion))")
+            print("  - Modalidad  : \(t.modalidad)")
+            print("  - Ubicación  : \(t.referenciaUbicacion)")
+            print("  - Caminata   : ~\(t.tiempoEstimadoMin) min aprox.\n")
+        }
+    }
+}
