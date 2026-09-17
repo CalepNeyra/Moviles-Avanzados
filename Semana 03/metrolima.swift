@@ -96,3 +96,15 @@ struct LineaTransporte {
         print("Total de estaciones: \(paraderos.count)")
     }
 }
+// ============================================================================
+// 4. MODELO DE INTERCAMBIO / TRANSBORDO
+// ============================================================================
+struct TransbordoRed {
+    let origenLinea: String
+    let origenEstacion: String
+    let destinoLinea: String
+    let destinoEstacion: String
+    let modalidad: String
+    let referenciaUbicacion: String
+    let tiempoEstimadoMin: Int
+}
