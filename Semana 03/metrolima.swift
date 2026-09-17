@@ -38,14 +38,14 @@ enum EstadoServicio {
     
     var etiquetaVisible: String {
         switch self {
-        case .operativo: return "🟢 OPERATIVA (En servicio comercial)".verde.negrita
-        case .fueraDeServicio: return "🔴 NO OPERATIVA (En construcción / obras)".rojo.negrita
+        case .operativo: return "🟢 ABIERTA (Servicio Comercial)".verde.negrita
+        case .fueraDeServicio: return "🔴 CERRADA (En Obras / Proyecto)".rojo.negrita
         }
     }
 }
 
 // ============================================================================
-// GESTIÓN DE TARJETA Y ESTADOS DE COBRO (REGLAS LÍNEA 1)
+// GESTIÓN DE TARJETA Y SALDO DINÁMICO PERSISTENTE
 // ============================================================================
 enum ResultadoPago {
     case exito(tarjetaActualizada: TarjetaTransporte)
@@ -55,7 +55,7 @@ enum ResultadoPago {
 
 struct TarjetaTransporte {
     var saldo: Double
-    static let saldoMaximoPermitido: Double = 100.0 // Límite real oficial
+    static let saldoMaximoPermitido: Double = 100.0
     
     mutating func recargar(monto: Double) -> (exito: Bool, mensaje: String) {
         if monto <= 0 {
@@ -65,20 +65,21 @@ struct TarjetaTransporte {
         let nuevoSaldoCalculado = saldo + monto
         if nuevoSaldoCalculado > TarjetaTransporte.saldoMaximoPermitido {
             let maximoPosibleRecarga = TarjetaTransporte.saldoMaximoPermitido - saldo
-            return (false, "Excede el límite máximo de la tarjeta (S/ 100.00). Saldo actual: S/ \(String(format: "%.2f", saldo)). Recarga máxima permitida: S/ \(String(format: "%.2f", maximoPosibleRecarga)).")
+            return (false, "Excede el límite máximo de S/ 100.00. Saldo actual: S/ \(String(format: "%.2f", saldo)). Máximo a recargar: S/ \(String(format: "%.2f", maximoPosibleRecarga)).")
         }
         
         saldo = nuevoSaldoCalculado
-        return (true, "Recarga exitosa. Nuevo saldo: S/ \(String(format: "%.2f", saldo))")
+        return (true, "Recarga exitosa. Saldo guardado: S/ \(String(format: "%.2f", saldo))")
     }
     
-    func realizarCobro(tarifa: Double) -> ResultadoPago {
+    mutating func realizarCobro(tarifa: Double) -> ResultadoPago {
         if saldo >= tarifa {
-            let nuevoSaldo = saldo - tarifa
-            return .exito(tarjetaActualizada: TarjetaTransporte(saldo: nuevoSaldo))
+            saldo -= tarifa
+            return .exito(tarjetaActualizada: self)
         } else if saldo > 0 {
             let deuda = tarifa - saldo
-            return .parcial(tarjetaSinSaldo: TarjetaTransporte(saldo: 0.0), deudaPendiente: deuda)
+            saldo = 0.0
+            return .parcial(tarjetaSinSaldo: self, deudaPendiente: deuda)
         } else {
             let faltante = tarifa - saldo
             return .insuficiente(faltante: faltante)
@@ -86,7 +87,8 @@ struct TarjetaTransporte {
     }
 }
 
-var miTarjetaUsuario = TarjetaTransporte(saldo: 10.00)
+// Saldo inicial configurable (se actualiza y guarda en cada operación)
+var miTarjetaUsuario = TarjetaTransporte(saldo: 0.00)
 
 // ============================================================================
 // 2. MODELO DE ESTACIÓN REAL
@@ -137,7 +139,7 @@ struct LineaTransporte {
         print("==========================================")
         for (idx, p) in paraderos.enumerated() {
             let cod = p.identificador.isEmpty ? "" : "[\(p.identificador)] "
-            let estadoTexto = (p.estado == .operativo) ? "🟢 [OPERATIVA]".verde : "🔴 [EN OBRAS]".rojo
+            let estadoTexto = (p.estado == .operativo) ? "🟢 [ABIERTA]".verde : "🔴 [CERRADA/OBRAS]".rojo
             print("  \(idx + 1). \(cod)\(p.nombre) \(estadoTexto) — \(p.cruceAvenidas)")
         }
         print("Total de estaciones: \(paraderos.count)")
@@ -171,7 +173,6 @@ class GestorRedTransporte {
         return lineasRed.flatMap { $0.paraderos }
     }
     
-    // VER RESUMEN EXCLUSIVO DE LÍNEAS
     func listarSoloLineas() {
         print("\n==========================================")
         print("🚇 LÍNEAS REGISTRADAS EN LA RED".negrita.cian)
@@ -282,12 +283,12 @@ func imprimirLeyendaSistema() {
     print("\n==========================================")
     print("📖 LEYENDA TÉCNICA Y SIMBOLOGÍA DEL SISTEMA".negrita.cian)
     print("==========================================")
-    print(" (F) / 🟢 : Estación Operativa (En servicio activo)")
-    print(" (NF) / 🔴: Estación No Operativa (En proyecto o infraestructura en obras)")
-    print(" [E-XX]   : Código oficial de infraestructura asignado")
-    print(" 💳        : Saldo máximo permitido en tarjeta: S/ 100.00")
-    print(" ♿        : Estación adaptada para personas con movilidad reducida")
-    print(" 🔗        : Nodo de transferencia entre líneas")
+    print(" 🟢 ABIERTA  : Estación Operativa (En servicio activo)")
+    print(" 🔴 CERRADA  : Estación No Operativa (En proyecto o infraestructura en obras)")
+    print(" [E-XX]      : Código oficial de infraestructura asignado")
+    print(" 💳           : Saldo máximo permitido en tarjeta: S/ 100.00")
+    print(" ♿           : Estación adaptada para personas con movilidad reducida")
+    print(" 🔗           : Nodo de transferencia entre líneas")
     print("==========================================\n")
 }
 
@@ -391,7 +392,7 @@ while sistemaActivo {
     print("3. Planificar ruta y simular cobro en torniquete")
     print("4. Ver mi saldo actual y recargar tarjeta 💳")
     print("5. Ver puntos de transbordo e intercambios")
-    print("6. Filtrar catálogo (Estado / Accesibilidad)")
+    print("6. Filtrar catálogo (Estaciones Abiertas / Cerradas / Accesibilidad)")
     print("7. Modo Administrador 🛠️")
     print("8. Ver Leyenda de Simbología")
     print("9. Salir")
@@ -454,7 +455,7 @@ while sistemaActivo {
             print("==================================================")
             
             for (idx, r) in rutas.enumerated() {
-                let estadoTexto = (r.estacion.estado == .operativo) ? "🟢 [OPERATIVA]".verde : "🔴 [EN OBRAS]".rojo
+                let estadoTexto = (r.estacion.estado == .operativo) ? "🟢 [ABIERTA]".verde : "🔴 [CERRADA/OBRAS]".rojo
                 print("Opción \(idx + 1): Bajar en estación \(r.estacion.nombre.uppercased().negrita) \(estadoTexto)")
                 print("  • Red/Línea       : \(r.estacion.lineaPertenencia.cian)")
                 print("  • Ubicación       : \(r.estacion.cruceAvenidas)")
@@ -468,7 +469,7 @@ while sistemaActivo {
             print("--------------------------------------------------")
             print("💳 COBRO AUTOMÁTICO EN TORNIQUETE".negrita.amarillo)
             print("• Pasaje del viaje: S/ \(String(format: "%.2f", costoRequerido))")
-            print("• Saldo actual en tu tarjeta: S/ \(String(format: "%.2f", miTarjetaUsuario.saldo))".cian)
+            print("• Saldo guardado en tarjeta: S/ \(String(format: "%.2f", miTarjetaUsuario.saldo))".cian)
             print("¿Deseas validar tu ingreso al torniquete? (s/n):")
             
             let confirmar = (readLine() ?? "").lowercased()
@@ -479,12 +480,11 @@ while sistemaActivo {
                 case .exito(let tarjetaNueva):
                     miTarjetaUsuario = tarjetaNueva
                     print("\n✅ ¡PAGO EXITOSO! TORNIQUETE ABIERTO".verde.negrita)
-                    print("• Saldo restante disponible: S/ \(String(format: "%.2f", miTarjetaUsuario.saldo))".verde)
+                    print("• Saldo guardado actual: S/ \(String(format: "%.2f", miTarjetaUsuario.saldo))".verde)
                     
                 case .parcial(_, let deuda):
-                    miTarjetaUsuario.saldo = 0.0
                     print("\n⚠️ PAGO PARCIAL APLICADO".amarillo.negrita)
-                    print("• Se agotó tu saldo disponible. Deuda en estación: S/ \(String(format: "%.2f", deuda))".rojo)
+                    print("• Se agotó tu saldo guardado. Deuda en estación: S/ \(String(format: "%.2f", deuda))".rojo)
                     print("👉 Acércate a la boletería a cancelar el saldo pendiente para ingresar.")
                     
                 case .insuficiente(let faltante):
@@ -498,22 +498,23 @@ while sistemaActivo {
             }
         }
         
-    // 🔍 === [MÓDULO 4: GESTIÓN DE TARJETA, CONSULTA DE SALDO Y RECARGA] ===
+    // 🔍 === [MÓDULO 4: GESTIÓN DE TARJETA Y SALDO DINÁMICO] ===
     case "4":
         print("\n==========================================")
         print("💳 CONSULTA Y RECARGA DE TARJETA METRO".negrita.cian)
         print("==========================================")
-        print("• Saldo actual disponible: S/ \(String(format: "%.2f", miTarjetaUsuario.saldo))".amarillo.negrita)
+        print("• Saldo guardado actualmente: S/ \(String(format: "%.2f", miTarjetaUsuario.saldo))".amarillo.negrita)
         print("• Límite máximo de tarjeta: S/ 100.00".cian)
         print("------------------------------------------")
-        print("1. Recargar saldo")
-        print("2. Volver al menú principal")
+        print("1. Recargar dinero a la tarjeta")
+        print("2. Definir / Establecer un nuevo saldo inicial")
+        print("3. Volver al menú principal")
         print("Seleccione una opción:")
         
         let subOp = readLine() ?? ""
         if subOp == "1" {
             print("\nIngrese el monto a recargar (S/):")
-            print("📌 Nota: El saldo total acumulado NO puede superar S/ 100.00.")
+            print("📌 Nota: El saldo acumulado se guardará y no puede superar S/ 100.00.")
             if let entradaMonto = readLine(), let montoRecarga = Double(entradaMonto) {
                 let resRecarga = miTarjetaUsuario.recargar(monto: montoRecarga)
                 if resRecarga.exito {
@@ -524,17 +525,25 @@ while sistemaActivo {
             } else {
                 print("❌ Monto ingresado no válido.".rojo)
             }
+        } else if subOp == "2" {
+            print("\nIngrese el monto inicial deseado para la tarjeta (S/):")
+            if let entradaNuevoSaldo = readLine(), let nuevoSaldo = Double(entradaNuevoSaldo), nuevoSaldo >= 0 && nuevoSaldo <= 100.0 {
+                miTarjetaUsuario.saldo = nuevoSaldo
+                print("\n✅ ¡Saldo inicial actualizado y guardado correctamente en S/ \(String(format: "%.2f", miTarjetaUsuario.saldo))!".verde.negrita)
+            } else {
+                print("❌ Monto inválido. Debe ser un valor entre S/ 0.00 y S/ 100.00.".rojo)
+            }
         }
         
     // 🔍 === [MÓDULO 5: VER PUNTOS DE TRANSBORDO E INTERCAMBIOS] ===
     case "5":
         redCentral.desplegarTransbordos()
         
-    // 🔍 === [MÓDULO 6: FILTRAR CATÁLOGO (OPERATIVIDAD Y ACCESIBILIDAD)] ===
+    // 🔍 === [MÓDULO 6: FILTRAR ESTACIONES ABIERTAS Y CERRADAS] ===
     case "6":
-        print("\n--- CRITERIOS DE FILTRADO ---".negrita.cian)
-        print("1. Ver solo estaciones en funcionamiento (🟢)")
-        print("2. Ver estaciones en proyecto/obras (🔴)")
+        print("\n--- FILTRO DE ESTACIONES ---".negrita.cian)
+        print("1. Ver solo estaciones ABIERTAS / En funcionamiento (🟢)")
+        print("2. Ver solo estaciones CERRADAS / En obras (🔴)")
         print("3. Ver estaciones con acceso para discapacidad (♿)")
         print("Elija una opción:")
         
@@ -542,12 +551,12 @@ while sistemaActivo {
         switch subOp {
         case "1":
             let ops = redCentral.obtenerPorEstado(.operativo)
-            print("\n=== ESTACIONES EN FUNCIONAMIENTO (\(ops.count)) ===".verde.negrita)
-            ops.forEach { print("  • [\($0.lineaPertenencia.cian)] \($0.nombre) — \($0.cruceAvenidas)") }
+            print("\n=== ESTACIONES ABIERTAS EN LA RED (\(ops.count)) ===".verde.negrita)
+            ops.forEach { print("  • [\($0.lineaPertenencia.cian)] \($0.nombre) 🟢 — \($0.cruceAvenidas)") }
         case "2":
             let noOps = redCentral.obtenerPorEstado(.fueraDeServicio)
-            print("\n=== ESTACIONES EN PROYECTO / OBRAS (\(noOps.count)) ===".rojo.negrita)
-            noOps.forEach { print("  • [\($0.lineaPertenencia.cian)] \($0.nombre) — \($0.cruceAvenidas)") }
+            print("\n=== ESTACIONES CERRADAS / EN OBRAS (\(noOps.count)) ===".rojo.negrita)
+            noOps.forEach { print("  • [\($0.lineaPertenencia.cian)] \($0.nombre) 🔴 — \($0.cruceAvenidas)") }
         case "3":
             let adaptadas = redCentral.obtenerConAccesoElevador()
             print("\n=== ACCESO ADAPTADO PARA DISCAPACIDAD (\(adaptadas.count)) ===".azul.negrita)
@@ -556,8 +565,19 @@ while sistemaActivo {
             print("❌ Opción de filtro no válida.".rojo)
         }
         
-    // 🔍 === [MÓDULO 7: MODO ADMINISTRADOR (CREAR/INSERTAR ESTACIÓN O LÍNEA)] ===
+    // 🔍 === [MÓDULO 7: MODO ADMINISTRADOR CON CONFIRMACIÓN DE VISTA] ===
     case "7":
+        let claveCorrecta = "admin123"
+        
+        print("\n🔒 ACCESO RESTRINGIDO - MODO ADMINISTRADOR".negrita.rojo)
+        print("Ingrese la contraseña de administrador (Default: admin123):")
+        let claveIngresada = readLine() ?? ""
+        
+        if claveIngresada != claveCorrecta {
+            print("\n❌ Acceso denegado: Contraseña incorrecta.".rojo.negrita)
+            break
+        }
+        
         print("\n==========================================")
         print("🛠️ MODO ADMINISTRADOR - GESTIÓN DE RED".negrita.cian)
         print("==========================================")
@@ -586,7 +606,9 @@ while sistemaActivo {
                     let res = redCentral.insertarEstacion(numLinea: numL, posicion: posIngresada, nombreEstacion: nomEstacion, cruce: cruce)
                     if res.exito {
                         print("\n✅ ¡Estación '\(nomEstacion)' insertada con éxito en la posición \(posIngresada) de la \(res.lineaNombre)!".verde.negrita)
-                        print("• Heredó la tarifa oficial de la línea: S/ \(String(format: "%.2f", res.tarifa))".amarillo)
+                        print("------------------------------------------")
+                        print("📋 REVISIÓN DE LO CREADO EN LA RED:".cian.negrita)
+                        redCentral.lineasRed[numL - 1].imprimirCatalogo()
                     } else {
                         print("\n❌ Selección de línea no válida.".rojo)
                     }
@@ -607,6 +629,9 @@ while sistemaActivo {
             
             redCentral.crearNuevaLinea(denominacion: nom, color: col, tarifaAdulto: tAdulto, tarifaMedio: tMedio)
             print("\n✅ ¡Línea '\(nom)' creada e integrada a la red!".verde.negrita)
+            print("------------------------------------------")
+            print("📋 REVISIÓN DE LÍNEAS REGISTRADAS:".cian.negrita)
+            redCentral.listarSoloLineas()
             
         default:
             print("Volviendo al menú principal...")
