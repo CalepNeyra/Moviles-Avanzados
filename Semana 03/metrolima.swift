@@ -42,3 +42,34 @@ enum EstadoServicio {
         }
     }
 }
+// ============================================================================
+// 2. MODELO DE ESTACIÓN REAL
+// ============================================================================
+struct EstacionRed {
+    let identificador: String
+    let nombre: String
+    let lineaPertenencia: String
+    let posicion: Int
+    let estado: EstadoServicio
+    let accesoDiscapacidad: Bool
+    let cruceAvenidas: String
+    let puntosInteres: [String]
+    
+    func obtenerFichaDetallada(tarifa: Double) -> String {
+        let cod = identificador.isEmpty ? "" : "[\(identificador)] "
+        let accTexto = accesoDiscapacidad ? "♿ Accesible (Ascensores / Rampas)".verde : "🚫 Accesibilidad restringida por obras".rojo
+        
+        return """
+        --------------------------------------------------
+        📍 ESTACIÓN: \(cod)\(nombre.uppercased())
+        --------------------------------------------------
+        • Estado de Operación : \(estado.etiquetaVisible)
+        • Red / Línea         : \(lineaPertenencia.cian) (Posición \(posicion))
+        • Tarifa Adulto       : S/ \(String(format: "%.2f", tarifa).amarillo)
+        • Ubicación/Cruce     : \(cruceAvenidas)
+        • Accesibilidad       : \(accTexto)
+        • Referencias         : \(puntosInteres.joined(separator: ", "))
+        --------------------------------------------------
+        """
+    }
+}
