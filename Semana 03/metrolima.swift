@@ -45,6 +45,35 @@ enum EstadoServicio {
 }
 
 // ============================================================================
+// GESTIÓN DE TARJETA Y ESTADOS DE COBRO
+// ============================================================================
+enum ResultadoPago {
+    case exito(tarjetaActualizada: TarjetaTransporte)
+    case parcial(tarjetaSinSaldo: TarjetaTransporte, deudaPendiente: Double)
+    case insuficiente(faltante: Double)
+}
+
+struct TarjetaTransporte {
+    let saldo: Double
+    
+    // Función inmutable: no usa 'mutating' ni clases
+    func realizarCobro(tarifa: Double) -> ResultadoPago {
+        if saldo >= tarifa {
+            let nuevoSaldo = saldo - tarifa
+            return .exito(tarjetaActualizada: TarjetaTransporte(saldo: nuevoSaldo))
+            
+        } else if saldo > 0 {
+            let deuda = tarifa - saldo
+            return .parcial(tarjetaSinSaldo: TarjetaTransporte(saldo: 0.0), deudaPendiente: deuda)
+            
+        } else {
+            let faltante = tarifa - saldo
+            return .insuficiente(faltante: faltante)
+        }
+    }
+}
+
+// ============================================================================
 // 2. MODELO DE ESTACIÓN REAL
 // ============================================================================
 struct EstacionRed {
@@ -174,17 +203,14 @@ class GestorRedTransporte {
         print("==========================================")
         for t in listaTransbordos {
             print("• \(t.origenLinea.cian) (\(t.origenEstacion)) ⇄ \(t.destinoLinea.cian) (\(t.destinoEstacion))")
-            print("  - Modalidad  : \(t.modalidad)")
-            print("  - Ubicación  : \(t.referenciaUbicacion)")
-            print("  - Caminata   : ~\(t.tiempoEstimadoMin) min aprox.\n")
+            print("  - Modalidad   : \(t.modalidad)")
+            print("  - Ubicación   : \(t.referenciaUbicacion)")
+            print("  - Caminata    : ~\(t.tiempoEstimadoMin) min aprox.\n")
         }
     }
-}
-// ============================================================================
+    
     // PLANIFICACIÓN DE RUTA Y CÁLCULO DE RECORRIDO (USANDO IF LET)
-    // ============================================================================
     func calcularRutaFacil(origenNombre: String, destinoNombre: String) {
-        // 1. Buscamos la estación de origen
         var estacionOrigen: EstacionRed? = nil
         for e in todasLasEstaciones {
             if e.nombre.lowercased().contains(origenNombre.lowercased()) {
@@ -193,7 +219,6 @@ class GestorRedTransporte {
             }
         }
         
-        // 2. Buscamos la estación de destino
         var estacionDestino: EstacionRed? = nil
         for e in todasLasEstaciones {
             if e.nombre.lowercased().contains(destinoNombre.lowercased()) {
@@ -202,7 +227,6 @@ class GestorRedTransporte {
             }
         }
         
-        // 3. Validamos que ambas existan con 'if let'
         if let origen = estacionOrigen, let destino = estacionDestino {
             print("\n==========================================")
             print("🗺️ PLAN DE VIAJE METROPOLITANO".negrita.cian)
@@ -210,19 +234,17 @@ class GestorRedTransporte {
             print("📍 Estación Origen : \(origen.nombre) (\(origen.lineaPertenencia.cian))")
             print("🏁 Estación Destino: \(destino.nombre) (\(destino.lineaPertenencia.cian))\n")
             
-            // CASO A: Misma línea (Viaje directo)
             if origen.lineaPertenencia == destino.lineaPertenencia {
                 let estacionesRecorridas = abs(destino.posicion - origen.posicion)
                 let tarifa = lineasRed.first(where: { $0.denominacion == origen.lineaPertenencia })?.tarifaAdulto ?? 0.0
                 
-                print("🟢 **Ruta Directa (Sin Transbordo)**".verde.negrita)
-                print("• Recorrido        : \(estacionesRecorridas) estaciones a viajar")
-                print("• Dirección        : \(origen.posicion < destino.posicion ? "Hacia final de línea" : "Hacia inicio de línea")")
-                print("• Costo de pasaje  : S/ \(String(format: "%.2f", tarifa))".amarillo)
+                print("🟢 Ruta Directa (Sin Transbordo)".verde.negrita)
+                print("• Recorrido         : \(estacionesRecorridas) estaciones a viajar")
+                print("• Dirección         : \(origen.posicion < destino.posicion ? "Hacia final de línea" : "Hacia inicio de línea")")
+                print("• Costo de pasaje   : S/ \(String(format: "%.2f", tarifa))".amarillo)
                 
-            // CASO B: Distintas líneas (Transbordo)
             } else {
-                print("🔄 **Ruta Combinada (Requiere Transbordo)**".amarillo.negrita)
+                print("🔄 Ruta Combinada (Requiere Transbordo)".amarillo.negrita)
                 print("1. Aborda en '\(origen.nombre)' de la \(origen.lineaPertenencia).")
                 print("2. Haz el transbordo en la estación de conexión (Ej: 28 de Julio / Gamarra).")
                 print("3. Continúa en la \(destino.lineaPertenencia) hasta bajar en '\(destino.nombre)'.")
@@ -230,10 +252,10 @@ class GestorRedTransporte {
                 print("• Costo total viaje: S/ 2.90".amarillo + " (S/ 1.50 + S/ 1.40)")
             }
         } else {
-            // Si no encuentra alguna de las dos estaciones
             print("\n❌ No se encontró la estación de origen o destino ingresada.".rojo)
         }
     }
+}
 
 func imprimirLeyendaSistema() {
     print("\n==========================================")
@@ -241,10 +263,10 @@ func imprimirLeyendaSistema() {
     print("==========================================")
     print(" (F) / 🟢 : Estación Operativa (En servicio activo)")
     print(" (NF) / 🔴: Estación No Operativa (En proyecto o infraestructura en obras)")
-    print(" [E-XX]  : Código oficial de infraestructura asignado")
-    print(" 💳       : Saldo en tarjeta de transporte disponible / requerido")
-    print(" ♿       : Estación adaptada para personas con movilidad reducida")
-    print(" 🔗       : Nodo de transferencia entre líneas")
+    print(" [E-XX]   : Código oficial de infraestructura asignado")
+    print(" 💳        : Saldo en tarjeta de transporte disponible / requerido")
+    print(" ♿        : Estación adaptada para personas con movilidad reducida")
+    print(" 🔗        : Nodo de transferencia entre líneas")
     print("==========================================\n")
 }
 
@@ -402,20 +424,31 @@ while sistemaActivo {
             let costoRequerido = rutas[0].tarifaAdulto
             
             print("--------------------------------------------------")
-            print("💳 VERIFICACIÓN DE PRESUPUESTO Y SALDO".negrita.amarillo)
+            print("💳 GESTIÓN DE TARJETA Y COBRO DE PASAJE".negrita.amarillo)
             print("El pasaje individual para esta ruta es de: S/ \(String(format: "%.2f", costoRequerido))")
-            print("¿Con cuánto saldo en tu tarjeta o dinero disponible cuentas? (S/):")
+            print("¿Con cuánto saldo en tu tarjeta cuentas? (S/):")
             
             if let entradaSaldo = readLine(), let saldoActual = Double(entradaSaldo) {
-                if saldoActual >= costoRequerido {
-                    let restante = saldoActual - costoRequerido
-                    print("\n✅ ¡SALDO SUFICIENTE!".verde.negrita)
-                    print("Puedes realizar tu viaje. Tu saldo restante en tarjeta será: S/ \(String(format: "%.2f", restante))".verde)
-                } else {
-                    let faltante = costoRequerido - saldoActual
-                    print("\n⚠️ SALDO INSUFICIENTE PARA EL VIAJE".rojo.negrita)
-                    print("Tienes: S/ \(String(format: "%.2f", saldoActual)) | Necesitas: S/ \(String(format: "%.2f", costoRequerido))".amarillo)
-                    print("Te faltan S/ \(String(format: "%.2f", faltante)) en tu tarjeta. Debes recargar antes de ingresar al torniquete.".rojo)
+                let miTarjeta = TarjetaTransporte(saldo: saldoActual)
+                let resultado = miTarjeta.realizarCobro(tarifa: costoRequerido)
+                
+                switch resultado {
+                case .exito(let tarjetaNueva):
+                    print("\n✅ ¡PAGO EXITOSO!".verde.negrita)
+                    print("Puedes ingresar al torniquete.")
+                    print("• Saldo restante en tu tarjeta: S/ \(String(format: "%.2f", tarjetaNueva.saldo))".verde)
+                    
+                case .parcial(_, let deuda):
+                    print("\n⚠️ PAGO PARCIAL APLICADO".amarillo.negrita)
+                    print("• Se utilizó todo el saldo disponible de tu tarjeta (S/ \(String(format: "%.2f", saldoActual)))".amarillo)
+                    print("• Saldo pendiente por pagar: S/ \(String(format: "%.2f", deuda))".rojo)
+                    print("👉 Por favor acércate a la taquilla a cancelar la diferencia para liberar el paso.")
+                    
+                case .insuficiente(let faltante):
+                    print("\n🔴 SALDO INSUFICIENTE".rojo.negrita)
+                    print("• Saldo actual: S/ 0.00 | Pasaje necesario: S/ \(String(format: "%.2f", costoRequerido))")
+                    print("• Te faltan S/ \(String(format: "%.2f", faltante)) para realizar este viaje.".rojo)
+                    print("👉 Debes realizar una recarga en la taquilla antes de ingresar.")
                 }
             } else {
                 print("❌ Monto ingresado no válido.".rojo)
