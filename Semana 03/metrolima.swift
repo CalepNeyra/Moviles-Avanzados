@@ -565,19 +565,8 @@ while sistemaActivo {
             print("❌ Opción de filtro no válida.".rojo)
         }
         
-    // 🔍 === [MÓDULO 7: MODO ADMINISTRADOR CON CONFIRMACIÓN DE VISTA] ===
+    // 🔍 === [MÓDULO 7: MODO ADMINISTRADOR (INGRESO DIRECTO SINO SOLICITAR CONTRASEÑA)] ===
     case "7":
-        let claveCorrecta = "admin123"
-        
-        print("\n🔒 ACCESO RESTRINGIDO - MODO ADMINISTRADOR".negrita.rojo)
-        print("Ingrese la contraseña de administrador (Default: admin123):")
-        let claveIngresada = readLine() ?? ""
-        
-        if claveIngresada != claveCorrecta {
-            print("\n❌ Acceso denegado: Contraseña incorrecta.".rojo.negrita)
-            break
-        }
-        
         print("\n==========================================")
         print("🛠️ MODO ADMINISTRADOR - GESTIÓN DE RED".negrita.cian)
         print("==========================================")
