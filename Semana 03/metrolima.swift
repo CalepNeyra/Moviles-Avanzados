@@ -171,6 +171,19 @@ class GestorRedTransporte {
         return lineasRed.flatMap { $0.paraderos }
     }
     
+    // VER RESUMEN EXCLUSIVO DE LÍNEAS
+    func listarSoloLineas() {
+        print("\n==========================================")
+        print("🚇 LÍNEAS REGISTRADAS EN LA RED".negrita.cian)
+        print("==========================================")
+        for (idx, l) in lineasRed.enumerated() {
+            print("\(idx + 1). \(l.denominacion.uppercased().negrita) (Color: \(l.colorIdentificador))")
+            print("   • Tarifa General : S/ \(String(format: "%.2f", l.tarifaAdulto))".amarillo)
+            print("   • Medio Pasaje   : S/ \(String(format: "%.2f", l.tarifaMedio))")
+            print("   • Estaciones     : \(l.paraderos.count) paraderos en total\n")
+        }
+    }
+    
     func consultarParadero(_ patron: String) -> [(estacion: EstacionRed, tarifa: Double)] {
         var lista: [(estacion: EstacionRed, tarifa: Double)] = []
         let eEncontradas = todasLasEstaciones.filter { $0.nombre.lowercased().contains(patron.lowercased()) }
@@ -373,7 +386,7 @@ while sistemaActivo {
     print("   SISTEMA METROPOLITANO Y CALCULADORA DE PASAJE".negrita.cian)
     print("             Desarrollado por: Calep Neyra")
     print("--------------------------------------------------")
-    print("1. Consultar estaciones y tarifas por línea")
+    print("1. Consultar líneas o catálogo de estaciones")
     print("2. Buscar ficha técnica y costo de estación")
     print("3. Planificar ruta y simular cobro en torniquete")
     print("4. Ver mi saldo actual y recargar tarjeta 💳")
@@ -388,16 +401,28 @@ while sistemaActivo {
     
     switch entrada {
         
-    // 🔍 === [MÓDULO 1: CONSULTAR ESTACIONES Y TARIFAS POR LÍNEA] ===
+    // 🔍 === [MÓDULO 1: CONSULTAR LÍNEAS O ESTACIONES] ===
     case "1":
-        print("\nIngrese el número de línea a consultar:")
-        for (i, l) in redCentral.lineasRed.enumerated() {
-            print("\(i + 1). \(l.denominacion) (\(l.colorIdentificador))")
-        }
-        if let num = Int(readLine() ?? ""), num >= 1 && num <= redCentral.lineasRed.count {
-            redCentral.lineasRed[num - 1].imprimirCatalogo()
+        print("\n--- CONSULTA DE RED ---".negrita.cian)
+        print("1. Ver lista general de Líneas (Resumen)")
+        print("2. Ver paraderos completos de una Línea")
+        print("Seleccione una opción:")
+        
+        let subConsulta = readLine() ?? ""
+        if subConsulta == "1" {
+            redCentral.listarSoloLineas()
+        } else if subConsulta == "2" {
+            print("\nIngrese el número de línea a consultar:")
+            for (i, l) in redCentral.lineasRed.enumerated() {
+                print("\(i + 1). \(l.denominacion) (\(l.colorIdentificador))")
+            }
+            if let num = Int(readLine() ?? ""), num >= 1 && num <= redCentral.lineasRed.count {
+                redCentral.lineasRed[num - 1].imprimirCatalogo()
+            } else {
+                print("❌ Selección fuera de rango.".rojo)
+            }
         } else {
-            print("❌ Selección fuera de rango.".rojo)
+            print("❌ Opción inválida.".rojo)
         }
         
     // 🔍 === [MÓDULO 2: BUSCAR FICHA TÉCNICA Y COSTO DE ESTACIÓN] ===
