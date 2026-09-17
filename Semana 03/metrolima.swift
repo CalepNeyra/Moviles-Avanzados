@@ -55,9 +55,8 @@ enum ResultadoPago {
 
 struct TarjetaTransporte {
     var saldo: Double
-    static let saldoMaximoPermitido: Double = 100.0 // Límite real oficial de Línea 1
+    static let saldoMaximoPermitido: Double = 100.0 // Límite real oficial
     
-    // Función de recarga con validación de tope máximo
     mutating func recargar(monto: Double) -> (exito: Bool, mensaje: String) {
         if monto <= 0 {
             return (false, "El monto a recargar debe ser mayor a S/ 0.00.")
@@ -73,16 +72,13 @@ struct TarjetaTransporte {
         return (true, "Recarga exitosa. Nuevo saldo: S/ \(String(format: "%.2f", saldo))")
     }
     
-    // Cobro inmutable que retorna la nueva tarjeta con saldo descontado
     func realizarCobro(tarifa: Double) -> ResultadoPago {
         if saldo >= tarifa {
             let nuevoSaldo = saldo - tarifa
             return .exito(tarjetaActualizada: TarjetaTransporte(saldo: nuevoSaldo))
-            
         } else if saldo > 0 {
             let deuda = tarifa - saldo
             return .parcial(tarjetaSinSaldo: TarjetaTransporte(saldo: 0.0), deudaPendiente: deuda)
-            
         } else {
             let faltante = tarifa - saldo
             return .insuficiente(faltante: faltante)
@@ -90,8 +86,7 @@ struct TarjetaTransporte {
     }
 }
 
-// Variable Global para mantener el estado de tu tarjeta durante toda la sesión
-var miTarjetaUsuario = TarjetaTransporte(saldo: 10.00) // Saldo inicial predeterminado
+var miTarjetaUsuario = TarjetaTransporte(saldo: 10.00)
 
 // ============================================================================
 // 2. MODELO DE ESTACIÓN REAL
@@ -140,10 +135,10 @@ struct LineaTransporte {
         print("RED METROPOLITANA: \(denominacion.uppercased()) (\(colorIdentificador))".negrita.cian)
         print("💵 Tarifa General: S/ \(String(format: "%.2f", tarifaAdulto)) | Medio Pasaje: S/ \(String(format: "%.2f", tarifaMedio))".amarillo)
         print("==========================================")
-        for p in paraderos {
+        for (idx, p) in paraderos.enumerated() {
             let cod = p.identificador.isEmpty ? "" : "[\(p.identificador)] "
             let estadoTexto = (p.estado == .operativo) ? "🟢 [OPERATIVA]".verde : "🔴 [EN OBRAS]".rojo
-            print("  \(p.posicion). \(cod)\(p.nombre) \(estadoTexto) — \(p.cruceAvenidas)")
+            print("  \(idx + 1). \(cod)\(p.nombre) \(estadoTexto) — \(p.cruceAvenidas)")
         }
         print("Total de estaciones: \(paraderos.count)")
     }
@@ -227,6 +222,46 @@ class GestorRedTransporte {
             print("  - Ubicación   : \(t.referenciaUbicacion)")
             print("  - Caminata    : ~\(t.tiempoEstimadoMin) min aprox.\n")
         }
+    }
+    
+    // MÓDULO ADMINISTRADOR: INSERTAR ESTACIÓN EN CUALQUIER POSICIÓN
+    func insertarEstacion(numLinea: Int, posicion: Int, nombreEstacion: String, cruce: String) -> (exito: Bool, tarifa: Double, lineaNombre: String) {
+        guard numLinea >= 1 && numLinea <= lineasRed.count else {
+            return (false, 0.0, "")
+        }
+        
+        let indexLinea = numLinea - 1
+        let totalActual = lineasRed[indexLinea].paraderos.count
+        
+        let posTarget = max(1, min(posicion, totalActual + 1))
+        let indexInsertar = posTarget - 1
+        let codigoGen = String(format: "E-%02d", posTarget)
+        
+        let nuevaEstacion = EstacionRed(
+            identificador: codigoGen,
+            nombre: nombreEstacion,
+            lineaPertenencia: lineasRed[indexLinea].denominacion,
+            posicion: posTarget,
+            estado: .operativo,
+            accesoDiscapacidad: true,
+            cruceAvenidas: cruce,
+            puntosInteres: ["Estación Intercalada / Nuevo Paradero"]
+        )
+        
+        lineasRed[indexLinea].paraderos.insert(nuevaEstacion, at: indexInsertar)
+        
+        return (true, lineasRed[indexLinea].tarifaAdulto, lineasRed[indexLinea].denominacion)
+    }
+    
+    // MÓDULO ADMINISTRADOR: CREAR NUEVA LÍNEA
+    func crearNuevaLinea(denominacion: String, color: String, tarifaAdulto: Double, tarifaMedio: Double) {
+        let nuevaLinea = LineaTransporte(
+            denominacion: denominacion,
+            colorIdentificador: color,
+            tarifaAdulto: tarifaAdulto,
+            tarifaMedio: tarifaMedio
+        )
+        registrarLinea(nuevaLinea)
     }
 }
 
@@ -329,7 +364,7 @@ redCentral.registrarTransbordo(TransbordoRed(origenLinea: "Linea 1", origenEstac
 redCentral.registrarTransbordo(TransbordoRed(origenLinea: "Linea 2", origenEstacion: "Estacion Central", destinoLinea: "Metropolitano", destinoEstacion: "Estación Central", modalidad: "Hub Intermodal Subterráneo", referenciaUbicacion: "Paseo de la República / Centro Cívico", tiempoEstimadoMin: 2))
 
 // ============================================================================
-// CONSOLA INTERACTIVA
+// CONSOLA INTERACTIVA (MENÚ PRINCIPAL Y SUS OPCIONES)
 // ============================================================================
 var sistemaActivo = true
 
@@ -344,21 +379,28 @@ while sistemaActivo {
     print("4. Ver mi saldo actual y recargar tarjeta 💳")
     print("5. Ver puntos de transbordo e intercambios")
     print("6. Filtrar catálogo (Estado / Accesibilidad)")
-    print("7. Ver Leyenda de Simbología")
-    print("8. Salir")
+    print("7. Modo Administrador 🛠️")
+    print("8. Ver Leyenda de Simbología")
+    print("9. Salir")
     print("Seleccione una opción: ".negrita)
     
     let entrada = readLine() ?? ""
     
     switch entrada {
+        
+    // 🔍 === [MÓDULO 1: CONSULTAR ESTACIONES Y TARIFAS POR LÍNEA] ===
     case "1":
-        print("\nIngrese el número de línea a consultar (1 - 2):")
+        print("\nIngrese el número de línea a consultar:")
+        for (i, l) in redCentral.lineasRed.enumerated() {
+            print("\(i + 1). \(l.denominacion) (\(l.colorIdentificador))")
+        }
         if let num = Int(readLine() ?? ""), num >= 1 && num <= redCentral.lineasRed.count {
             redCentral.lineasRed[num - 1].imprimirCatalogo()
         } else {
             print("❌ Selección fuera de rango.".rojo)
         }
         
+    // 🔍 === [MÓDULO 2: BUSCAR FICHA TÉCNICA Y COSTO DE ESTACIÓN] ===
     case "2":
         print("\nIngrese el nombre de la estación:")
         let termino = readLine() ?? ""
@@ -372,6 +414,7 @@ while sistemaActivo {
             }
         }
         
+    // 🔍 === [MÓDULO 3: PLANIFICAR RUTA Y SIMULAR COBRO EN TORNIQUETE] ===
     case "3":
         print("\n¿A qué lugar o punto de interés deseas ir?".cian.negrita)
         print("Ejemplos: Gamarra, Estadio Nacional, Minka, Teatro Nacional, Mall del Sur")
@@ -409,7 +452,7 @@ while sistemaActivo {
                 
                 switch resultado {
                 case .exito(let tarjetaNueva):
-                    miTarjetaUsuario = tarjetaNueva // Se actualiza la tarjeta global
+                    miTarjetaUsuario = tarjetaNueva
                     print("\n✅ ¡PAGO EXITOSO! TORNIQUETE ABIERTO".verde.negrita)
                     print("• Saldo restante disponible: S/ \(String(format: "%.2f", miTarjetaUsuario.saldo))".verde)
                     
@@ -430,6 +473,7 @@ while sistemaActivo {
             }
         }
         
+    // 🔍 === [MÓDULO 4: GESTIÓN DE TARJETA, CONSULTA DE SALDO Y RECARGA] ===
     case "4":
         print("\n==========================================")
         print("💳 CONSULTA Y RECARGA DE TARJETA METRO".negrita.cian)
@@ -457,9 +501,11 @@ while sistemaActivo {
             }
         }
         
+    // 🔍 === [MÓDULO 5: VER PUNTOS DE TRANSBORDO E INTERCAMBIOS] ===
     case "5":
         redCentral.desplegarTransbordos()
         
+    // 🔍 === [MÓDULO 6: FILTRAR CATÁLOGO (OPERATIVIDAD Y ACCESIBILIDAD)] ===
     case "6":
         print("\n--- CRITERIOS DE FILTRADO ---".negrita.cian)
         print("1. Ver solo estaciones en funcionamiento (🟢)")
@@ -485,10 +531,68 @@ while sistemaActivo {
             print("❌ Opción de filtro no válida.".rojo)
         }
         
+    // 🔍 === [MÓDULO 7: MODO ADMINISTRADOR (CREAR/INSERTAR ESTACIÓN O LÍNEA)] ===
     case "7":
+        print("\n==========================================")
+        print("🛠️ MODO ADMINISTRADOR - GESTIÓN DE RED".negrita.cian)
+        print("==========================================")
+        print("1. Insertar nueva estación en una línea (Posición personalizada)")
+        print("2. Registrar una línea completamente nueva")
+        print("3. Volver al menú principal")
+        print("Seleccione una opción:")
+        
+        let subOpAdmin = readLine() ?? ""
+        switch subOpAdmin {
+        case "1":
+            print("\n¿En qué línea deseas colocar la nueva estación?:")
+            for (i, l) in redCentral.lineasRed.enumerated() {
+                print("\(i + 1). \(l.denominacion) (Total actual: \(l.paraderos.count) estaciones)")
+            }
+            if let numL = Int(readLine() ?? "") {
+                print("¿En qué número de posición deseas colocarla?")
+                print("(Ejemplo: Ingresa 15 para colocarla entre Arriola y Gamarra en Línea 1)")
+                
+                if let posIngresada = Int(readLine() ?? "") {
+                    print("Nombre de la nueva estación:")
+                    let nomEstacion = readLine() ?? ""
+                    print("Cruce de avenidas / Ubicación:")
+                    let cruce = readLine() ?? ""
+                    
+                    let res = redCentral.insertarEstacion(numLinea: numL, posicion: posIngresada, nombreEstacion: nomEstacion, cruce: cruce)
+                    if res.exito {
+                        print("\n✅ ¡Estación '\(nomEstacion)' insertada con éxito en la posición \(posIngresada) de la \(res.lineaNombre)!".verde.negrita)
+                        print("• Heredó la tarifa oficial de la línea: S/ \(String(format: "%.2f", res.tarifa))".amarillo)
+                    } else {
+                        print("\n❌ Selección de línea no válida.".rojo)
+                    }
+                } else {
+                    print("❌ Posición numérica no válida.".rojo)
+                }
+            }
+            
+        case "2":
+            print("\nNombre de la nueva línea (Ej: Linea 3):")
+            let nom = readLine() ?? ""
+            print("Color identificador (Ej: Azul):")
+            let col = readLine() ?? ""
+            print("Tarifa General / Adulto (S/):")
+            let tAdulto = Double(readLine() ?? "") ?? 1.50
+            print("Tarifa Medio Pasaje (S/):")
+            let tMedio = Double(readLine() ?? "") ?? 0.75
+            
+            redCentral.crearNuevaLinea(denominacion: nom, color: col, tarifaAdulto: tAdulto, tarifaMedio: tMedio)
+            print("\n✅ ¡Línea '\(nom)' creada e integrada a la red!".verde.negrita)
+            
+        default:
+            print("Volviendo al menú principal...")
+        }
+        
+    // 🔍 === [MÓDULO 8: VER LEYENDA TÉCNICA Y SIMBOLOGÍA] ===
+    case "8":
         imprimirLeyendaSistema()
         
-    case "8":
+    // 🔍 === [MÓDULO 9: SALIR DEL SISTEMA] ===
+    case "9":
         sistemaActivo = false
         print("\nCerrando el sistema de transporte. ¡Éxitos, Calep!".verde.negrita)
         
