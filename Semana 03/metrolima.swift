@@ -73,3 +73,26 @@ struct EstacionRed {
         """
     }
 }
+// ============================================================================
+// 3. MODELO DE LÍNEA Y TARIFARIO
+// ============================================================================
+struct LineaTransporte {
+    let denominacion: String
+    let colorIdentificador: String
+    let tarifaAdulto: Double
+    let tarifaMedio: Double
+    var paraderos: [EstacionRed] = []
+    
+    func imprimirCatalogo() {
+        print("\n==========================================")
+        print("RED METROPOLITANA: \(denominacion.uppercased()) (\(colorIdentificador))".negrita.cian)
+        print("💵 Tarifa General: S/ \(String(format: "%.2f", tarifaAdulto)) | Medio Pasaje: S/ \(String(format: "%.2f", tarifaMedio))".amarillo)
+        print("==========================================")
+        for p in paraderos {
+            let cod = p.identificador.isEmpty ? "" : "[\(p.identificador)] "
+            let estadoTexto = (p.estado == .operativo) ? "🟢 [OPERATIVA]".verde : "🔴 [EN OBRAS]".rojo
+            print("  \(p.posicion). \(cod)\(p.nombre) \(estadoTexto) — \(p.cruceAvenidas)")
+        }
+        print("Total de estaciones: \(paraderos.count)")
+    }
+}
