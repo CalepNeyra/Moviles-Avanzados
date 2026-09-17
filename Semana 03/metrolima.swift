@@ -21,3 +21,24 @@ extension String {
     var azul: String { "\u{001B}[34m\(self)\u{001B}[0m" }
     var cian: String { "\u{001B}[36m\(self)\u{001B}[0m" }
 }
+// ============================================================================
+// 1. ESTADO DE OPERATIVIDAD
+// ============================================================================
+enum EstadoServicio {
+    case operativo
+    case fueraDeServicio
+    
+    var indicador: String {
+        switch self {
+        case .operativo: return "(F)"
+        case .fueraDeServicio: return "(NF)"
+        }
+    }
+    
+    var etiquetaVisible: String {
+        switch self {
+        case .operativo: return "🟢 OPERATIVA (En servicio comercial)".verde.negrita
+        case .fueraDeServicio: return "🔴 NO OPERATIVA (En construcción / obras)".rojo.negrita
+        }
+    }
+}
