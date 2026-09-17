@@ -180,6 +180,60 @@ class GestorRedTransporte {
         }
     }
 }
+// ============================================================================
+    // PLANIFICACIÓN DE RUTA Y CÁLCULO DE RECORRIDO (USANDO IF LET)
+    // ============================================================================
+    func calcularRutaFacil(origenNombre: String, destinoNombre: String) {
+        // 1. Buscamos la estación de origen
+        var estacionOrigen: EstacionRed? = nil
+        for e in todasLasEstaciones {
+            if e.nombre.lowercased().contains(origenNombre.lowercased()) {
+                estacionOrigen = e
+                break
+            }
+        }
+        
+        // 2. Buscamos la estación de destino
+        var estacionDestino: EstacionRed? = nil
+        for e in todasLasEstaciones {
+            if e.nombre.lowercased().contains(destinoNombre.lowercased()) {
+                estacionDestino = e
+                break
+            }
+        }
+        
+        // 3. Validamos que ambas existan con 'if let'
+        if let origen = estacionOrigen, let destino = estacionDestino {
+            print("\n==========================================")
+            print("🗺️ PLAN DE VIAJE METROPOLITANO".negrita.cian)
+            print("==========================================")
+            print("📍 Estación Origen : \(origen.nombre) (\(origen.lineaPertenencia.cian))")
+            print("🏁 Estación Destino: \(destino.nombre) (\(destino.lineaPertenencia.cian))\n")
+            
+            // CASO A: Misma línea (Viaje directo)
+            if origen.lineaPertenencia == destino.lineaPertenencia {
+                let estacionesRecorridas = abs(destino.posicion - origen.posicion)
+                let tarifa = lineasRed.first(where: { $0.denominacion == origen.lineaPertenencia })?.tarifaAdulto ?? 0.0
+                
+                print("🟢 **Ruta Directa (Sin Transbordo)**".verde.negrita)
+                print("• Recorrido        : \(estacionesRecorridas) estaciones a viajar")
+                print("• Dirección        : \(origen.posicion < destino.posicion ? "Hacia final de línea" : "Hacia inicio de línea")")
+                print("• Costo de pasaje  : S/ \(String(format: "%.2f", tarifa))".amarillo)
+                
+            // CASO B: Distintas líneas (Transbordo)
+            } else {
+                print("🔄 **Ruta Combinada (Requiere Transbordo)**".amarillo.negrita)
+                print("1. Aborda en '\(origen.nombre)' de la \(origen.lineaPertenencia).")
+                print("2. Haz el transbordo en la estación de conexión (Ej: 28 de Julio / Gamarra).")
+                print("3. Continúa en la \(destino.lineaPertenencia) hasta bajar en '\(destino.nombre)'.")
+                print("------------------------------------------")
+                print("• Costo total viaje: S/ 2.90".amarillo + " (S/ 1.50 + S/ 1.40)")
+            }
+        } else {
+            // Si no encuentra alguna de las dos estaciones
+            print("\n❌ No se encontró la estación de origen o destino ingresada.".rojo)
+        }
+    }
 
 func imprimirLeyendaSistema() {
     print("\n==========================================")
