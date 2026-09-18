@@ -6,3 +6,9 @@ enum EstadoLibro {
     case disponible
     case prestado
 }
+// 2. struct Libro
+struct Libro {
+    let titulo: String
+    let autor: String
+    var estado: EstadoLibro = .disponible
+}
