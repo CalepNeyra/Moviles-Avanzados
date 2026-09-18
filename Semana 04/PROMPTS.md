@@ -35,3 +35,5 @@ Mi versión es más explícita y directa de seguir paso a paso al usar `for i in
  
 ### ¿Qué me pareció mejor de la versión de la IA?
 La legibilidad del código al evitar el anidamiento profundo gracias a `guard`, y la simplicidad al imprimir el inventario mediante el `RawValue` del enum (`libro.estado.rawValue`).
+
+### Correccions
