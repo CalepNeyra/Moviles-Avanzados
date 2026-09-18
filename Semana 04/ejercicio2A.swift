@@ -68,3 +68,17 @@ class Biblioteca {
         }
     }
 }
+// 4. Simulación
+let miBiblioteca = Biblioteca()
+
+miBiblioteca.agregar(libro: Libro(titulo: "Cien años de soledad", autor: "Gabriel García Márquez"))
+miBiblioteca.agregar(libro: Libro(titulo: "La ciudad y los perros", autor: "Mario Vargas Llosa"))
+miBiblioteca.agregar(libro: Libro(titulo: "El Quijote", autor: "Miguel de Cervantes"))
+
+_ = miBiblioteca.prestar(titulo: "La ciudad y los perros")
+_ = miBiblioteca.prestar(titulo: "La ciudad y los perros")
+_ = miBiblioteca.devolver(titulo: "La ciudad y los perros")
+_ = miBiblioteca.prestar(titulo: "El Quijote")
+_ = miBiblioteca.prestar(titulo: "El Principito")
+
+miBiblioteca.inventario()
