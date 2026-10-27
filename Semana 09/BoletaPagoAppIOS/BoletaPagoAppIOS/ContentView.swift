@@ -10,16 +10,15 @@ import SwiftUI
 struct ContentView: View {
     @State private var calculadora = BoletaCalculadora()
     
-    // Campos del Formulario vacíos por defecto
+    // Todos los campos vacíos por defecto con placeholders de guía
     @State private var sueldoBasicoInput: String = ""
-    @State private var diasLaboradosInput: String = "30"
+    @State private var diasLaboradosInput: String = ""
     @State private var tieneHijosToggle: Bool = false
     @State private var esSistemaONP: Bool = true
-    @State private var horas25Input: String = "0"
-    @State private var horas35Input: String = "0"
-    @State private var adelantosInput: String = "0"
+    @State private var horas25Input: String = ""
+    @State private var horas35Input: String = ""
+    @State private var adelantosInput: String = ""
     
-    // Estados de control y validación
     @State private var mostrado: Bool = false
     @State private var mostrarAlerta: Bool = false
     @State private var mensajeAlerta: String = ""
@@ -60,7 +59,7 @@ struct ContentView: View {
                         HStack {
                             Text("Días Laborados (1-30):")
                             Spacer()
-                            TextField("30", text: $diasLaboradosInput)
+                            TextField("Ej. 30", text: $diasLaboradosInput)
                                 .keyboardType(.numberPad)
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
                                 .frame(width: 120)
@@ -83,7 +82,7 @@ struct ContentView: View {
                         HStack {
                             Text("Horas Extras 25% (Cant):")
                             Spacer()
-                            TextField("0", text: $horas25Input)
+                            TextField("Ej. 0", text: $horas25Input)
                                 .keyboardType(.decimalPad)
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
                                 .frame(width: 120)
@@ -92,7 +91,7 @@ struct ContentView: View {
                         HStack {
                             Text("Horas Extras 35% (Cant):")
                             Spacer()
-                            TextField("0", text: $horas35Input)
+                            TextField("Ej. 0", text: $horas35Input)
                                 .keyboardType(.decimalPad)
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
                                 .frame(width: 120)
@@ -101,23 +100,23 @@ struct ContentView: View {
                         HStack {
                             Text("Adelantos (S/):")
                             Spacer()
-                            TextField("0.00", text: $adelantosInput)
+                            TextField("Ej. 0.00", text: $adelantosInput)
                                 .keyboardType(.decimalPad)
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
                                 .frame(width: 120)
                         }
                         
                         Button(action: {
-                            // Validación estricta de datos obligatorios
+                            // Validaciones estrictas de campos obligatorios o vacíos
                             guard let basico = Double(sueldoBasicoInput), basico > 0 else {
-                                mensajeAlerta = "Faltan datos solicitados: Por favor ingrese un sueldo básico válido."
+                                mensajeAlerta = "Faltan datos solicitados: Ingrese un sueldo básico válido."
                                 mostrarAlerta = true
                                 mostrado = false
                                 return
                             }
                             
                             guard let dias = Int(diasLaboradosInput), dias > 0, dias <= 30 else {
-                                mensajeAlerta = "Faltan datos solicitados: Los días laborados deben estar entre 1 y 30."
+                                mensajeAlerta = "Faltan datos solicitados: Los días laborados deben ser entre 1 y 30."
                                 mostrarAlerta = true
                                 mostrado = false
                                 return
@@ -156,7 +155,7 @@ struct ContentView: View {
                         Alert(title: Text("Aviso"), message: Text(mensajeAlerta), dismissButton: .default(Text("OK")))
                     }
                     
-                    // Resultados (Solo se muestran si el usuario calculó correctamente)
+                    // Resultados
                     if mostrado {
                         VStack(alignment: .leading, spacing: 16) {
                             Text("Resultado de la Boleta")
