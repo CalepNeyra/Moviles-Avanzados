@@ -10,7 +10,8 @@ import SwiftUI
 struct ContentView: View {
     @State private var calculadora = BoletaCalculadora()
     
-    @State private var sueldoBasicoInput: String = "2500"
+    // Campos del Formulario vacíos por defecto
+    @State private var sueldoBasicoInput: String = ""
     @State private var diasLaboradosInput: String = "30"
     @State private var tieneHijosToggle: Bool = false
     @State private var esSistemaONP: Bool = true
@@ -18,7 +19,10 @@ struct ContentView: View {
     @State private var horas35Input: String = "0"
     @State private var adelantosInput: String = "0"
     
+    // Estados de control y validación
     @State private var mostrado: Bool = false
+    @State private var mostrarAlerta: Bool = false
+    @State private var mensajeAlerta: String = ""
 
     var body: some View {
         NavigationView {
@@ -104,8 +108,21 @@ struct ContentView: View {
                         }
                         
                         Button(action: {
-                            let basico = Double(sueldoBasicoInput) ?? 0.0
-                            let dias = Int(diasLaboradosInput) ?? 30
+                            // Validación estricta de datos obligatorios
+                            guard let basico = Double(sueldoBasicoInput), basico > 0 else {
+                                mensajeAlerta = "Faltan datos solicitados: Por favor ingrese un sueldo básico válido."
+                                mostrarAlerta = true
+                                mostrado = false
+                                return
+                            }
+                            
+                            guard let dias = Int(diasLaboradosInput), dias > 0, dias <= 30 else {
+                                mensajeAlerta = "Faltan datos solicitados: Los días laborados deben estar entre 1 y 30."
+                                mostrarAlerta = true
+                                mostrado = false
+                                return
+                            }
+                            
                             let h25 = Double(horas25Input) ?? 0.0
                             let h35 = Double(horas35Input) ?? 0.0
                             let adelanto = Double(adelantosInput) ?? 0.0
@@ -135,15 +152,18 @@ struct ContentView: View {
                     .background(Color(.systemGray6))
                     .cornerRadius(12)
                     .padding(.horizontal)
+                    .alert(isPresented: $mostrarAlerta) {
+                        Alert(title: Text("Aviso"), message: Text(mensajeAlerta), dismissButton: .default(Text("OK")))
+                    }
                     
-                    // Resultados
+                    // Resultados (Solo se muestran si el usuario calculó correctamente)
                     if mostrado {
                         VStack(alignment: .leading, spacing: 16) {
                             Text("Resultado de la Boleta")
                                 .font(.headline)
                                 .foregroundColor(.primary)
                             
-                            // Bloque 1: Remuneraciones[cite: 1]
+                            // Bloque 1: Remuneraciones
                             VStack(alignment: .leading, spacing: 8) {
                                 Text("REMUNERACIONES").font(.subheadline).bold().foregroundColor(.blue)
                                 FilaBoleta(concepto: "Sueldo computable", monto: calculadora.sueldoComputable)
@@ -158,7 +178,7 @@ struct ContentView: View {
                             .cornerRadius(8)
                             .shadow(radius: 1)
                             
-                            // Bloque 2: Retenciones / Descuentos[cite: 1]
+                            // Bloque 2: Retenciones / Descuentos
                             VStack(alignment: .leading, spacing: 8) {
                                 Text("RETENCIONES / DESCUENTOS").font(.subheadline).bold().foregroundColor(.red)
                                 if esSistemaONP {
@@ -181,7 +201,7 @@ struct ContentView: View {
                             .cornerRadius(8)
                             .shadow(radius: 1)
                             
-                            // Bloque 3: Aportaciones del Empleador[cite: 1]
+                            // Bloque 3: Aportaciones del Empleador
                             VStack(alignment: .leading, spacing: 8) {
                                 Text("APORTACIONES DEL EMPLEADOR").font(.subheadline).bold().foregroundColor(.green)
                                 FilaBoleta(concepto: "EsSalud (9%)", monto: calculadora.esSaludEmpleador)
@@ -192,7 +212,7 @@ struct ContentView: View {
                             .cornerRadius(8)
                             .shadow(radius: 1)
                             
-                            // Neto a Pagar[cite: 1]
+                            // Neto a Pagar
                             HStack {
                                 Text("NETO A PAGAR:")
                                     .font(.title3)
