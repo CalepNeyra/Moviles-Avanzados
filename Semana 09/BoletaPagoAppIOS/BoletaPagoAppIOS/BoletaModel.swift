@@ -7,78 +7,110 @@
 
 import Foundation
 
-struct BoletaCalculadora {
-    // Parámetros normativos fijos
-    let rmv: Double = 1230.00
-    
-    // Resultados de Remuneraciones
-    var sueldoComputable: Double = 0.0
-    var asignacionFamiliar: Double = 0.0
-    var montoHE25: Double = 0.0
-    var montoHE35: Double = 0.0
-    var totalRemuneraciones: Double = 0.0
-    
-    // Resultados de Descuentos
-    var montoONP: Double = 0.0
-    var montoAFPFondo: Double = 0.0
-    var montoAFPComision: Double = 0.0
-    var montoAFPSeguro: Double = 0.0
-    var montoAdelantos: Double = 0.0
-    var totalDescuentos: Double = 0.0
-    
-    // Aportaciones del Empleador
-    var esSaludEmpleador: Double = 0.0
-    
-    // Neto a Pagar
-    var netoAPagar: Double = 0.0
+// Extensión para cumplir estrictamente con la Regla 1 del Excel:
+// Redondear cada concepto monetario individualmente a dos decimales antes de sumarlos.
+extension Double {
+    func roundedToTwoDecimals() -> Double {
+        return (self * 100).rounded() / 100
+    }
+}
 
-    mutating func calcular(
-        sueldoBasico: Double,
-        diasLaborados: Int,
-        tieneHijos: Bool,
-        esONP: Bool,
-        horas25: Double,
-        horas35: Double,
-        adelantos: Double
-    ) {
-        // 1. Sueldo computable (Sueldo / 30 * Días) redondeado a 2 decimales
-        let brutoDiario = sueldoBasico / 30.0
-        sueldoComputable = round((brutoDiario * Double(diasLaborados)) * 100) / 100
-        
-        // 2. Asignación familiar (10% de la RMV si tiene hijos, de lo contrario 0)
-        asignacionFamiliar = tieneHijos ? round((rmv * 0.10) * 100) / 100 : 0.0
-        
-        // 3. Valor hora y Horas Extras (25% y 35%)
-        let valorHora = (sueldoBasico / 30.0) / 8.0
-        montoHE25 = round((valorHora * 1.25 * horas25) * 100) / 100
-        montoHE35 = round((valorHora * 1.35 * horas35) * 100) / 100
-        
-        // Total Remuneraciones
-        totalRemuneraciones = round((sueldoComputable + asignacionFamiliar + montoHE25 + montoHE35) * 100) / 100
-        
-        // 4. Retenciones y Descuentos (Con ceros estrictos en los no aplicables)
-        if esONP {
-            montoONP = round((totalRemuneraciones * 0.13) * 100) / 100
-            montoAFPFondo = 0.0
-            montoAFPComision = 0.0
-            montoAFPSeguro = 0.0
-        } else {
-            montoONP = 0.0
-            // AFP Ejemplo: Fondo 10%, Comisión 1.60%, Seguro 1.35% (Total 12.95%)
-            montoAFPFondo = round((totalRemuneraciones * 0.10) * 100) / 100
-            montoAFPComision = round((totalRemuneraciones * 0.0160) * 100) / 100
-            montoAFPSeguro = round((totalRemuneraciones * 0.0135) * 100) / 100
+struct BoletaModel {
+    // Parámetros normativos y constantes oficiales (Sincronizados con la pestaña 'Parámetros')
+    static let rmv: Double = 1230.0
+    static let tasaONP: Double = 0.13
+    static let tasaEsSalud: Double = 0.09
+    static let factorHE25: Double = 1.25
+    static let factorHE35: Double = 1.35
+    
+    // Entradas editables del usuario o de los casos de prueba
+    var sueldoBasico: Double
+    var diasLaborados: Double
+    var tieneHijos: Bool
+    var sistemaPensiones: String // "ONP" o "AFP"
+    var afpSeleccionada: String  // "AFP Ejemplo", "Habitat", "Integra", "Prima", "Profuturo"
+    var horas25: Double
+    var horas35: Double
+    var adelanto: Double
+    
+    // --- BLOQUE 1: CÁLCULOS BASE Y REMUNERACIONES ---
+    
+    // Sueldo por día y valor hora conservan decimales intermedios según Regla 2 del Excel
+    var sueldoDiarioBase: Double { sueldoBasico / 30.0 }
+    var valorHoraBase: Double { sueldoDiarioBase / 8.0 }
+    
+    // Sueldo computable proporcional a los días laborados
+    var sueldoComputable: Double { 
+        (sueldoDiarioBase * diasLaborados).roundedToTwoDecimals() 
+    }
+    
+    // Asignación familiar: 10% de la RMV si tiene hijos (No se prorratea por días)
+    var asignacionFamiliar: Double { 
+        tieneHijos ? (BoletaModel.rmv * 0.10).roundedToTwoDecimals() : 0.0 
+    }
+    
+    // Horas extras al 25% y 35%
+    var montoHE25: Double { 
+        (valorHoraBase * BoletaModel.factorHE25 * horas25).roundedToTwoDecimals() 
+    }
+    var montoHE35: Double { 
+        (valorHoraBase * BoletaModel.factorHE35 * horas35).roundedToTwoDecimals() 
+    }
+    
+    // Total de ingresos remunerativos
+    var totalRemuneraciones: Double {
+        (sueldoComputable + asignacionFamiliar + montoHE25 + montoHE35).roundedToTwoDecimals()
+    }
+    
+    // --- BLOQUE 2: RETENCIONES Y DESCUENTOS ---
+    
+    // ONP (13% aplicado solo si el sistema elegido es ONP)
+    var montoONP: Double {
+        sistemaPensiones == "ONP" ? (totalRemuneraciones * BoletaModel.tasaONP).roundedToTwoDecimals() : 0.0
+    }
+    
+    // Tasas de AFP (Equivalente al BUSCARV de la tabla de parámetros del Excel)
+    private var tasasAFP: (fondo: Double, comision: Double, seguro: Double) {
+        switch afpSeleccionada {
+        case "Habitat (flujo)":   return (0.10, 0.0147, 0.0137)
+        case "Integra (flujo)":   return (0.10, 0.0155, 0.0137)
+        case "Prima (flujo)":     return (0.10, 0.0160, 0.0137)
+        case "Profuturo (flujo)": return (0.10, 0.0169, 0.0137)
+        default:                  return (0.10, 0.0160, 0.0135) // AFP Ejemplo corporativo
         }
-        
-        montoAdelantos = round(adelantos * 100) / 100
-        
-        let sumaDescuentos = montoONP + montoAFPFondo + montoAFPComision + montoAFPSeguro + montoAdelantos
-        totalDescuentos = round(sumaDescuentos * 100) / 100
-        
-        // 5. Aportaciones del Empleador (EsSalud 9%)
-        esSaludEmpleador = round((totalRemuneraciones * 0.09) * 100) / 100
-        
-        // 6. Neto a Pagar
-        netoAPagar = round((totalRemuneraciones - totalDescuentos) * 100) / 100
+    }
+    
+    var afpFondo: Double {
+        sistemaPensiones == "AFP" ? (totalRemuneraciones * tasasAFP.fondo).roundedToTwoDecimals() : 0.0
+    }
+    
+    var afpComision: Double {
+        sistemaPensiones == "AFP" ? (totalRemuneraciones * tasasAFP.comision).roundedToTwoDecimals() : 0.0
+    }
+    
+    var afpSeguro: Double {
+        sistemaPensiones == "AFP" ? (totalRemuneraciones * tasasAFP.seguro).roundedToTwoDecimals() : 0.0
+    }
+    
+    // Total de descuentos (Suma de retención de pensión + adelantos recibidos)
+    var totalDescuentos: Double {
+        (montoONP + afpFondo + afpComision + afpSeguro + adelanto).roundedToTwoDecimals()
+    }
+    
+    // --- BLOQUE 3: NETO A PAGAR Y APORTES EMPLEADOR ---
+    
+    // Líquido final a recibir por el trabajador
+    var netoAPagar: Double {
+        (totalRemuneraciones - totalDescuentos).roundedToTwoDecimals()
+    }
+    
+    // EsSalud a cargo del empleador (9%, no se descuenta al trabajador)
+    var esSaludEmpleador: Double {
+        (totalRemuneraciones * BoletaModel.tasaEsSalud).roundedToTwoDecimals()
+    }
+    
+    // Costo total para la empresa
+    var costoTotalEmpleador: Double {
+        (totalRemuneraciones + esSaludEmpleador).roundedToTwoDecimals()
     }
 }
