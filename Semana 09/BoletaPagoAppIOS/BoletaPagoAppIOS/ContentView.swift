@@ -10,6 +10,10 @@ import SwiftUI
 struct ContentView: View {
     @State private var calculadora = BoletaCalculadora()
     
+    // Selector rápido de los 4 casos de la guía
+    @State private var casoSeleccionado: Int = 1
+    
+    // Campos vacíos por defecto
     @State private var sueldoBasicoInput: String = ""
     @State private var diasLaboradosInput: String = ""
     @State private var tieneHijosToggle: Bool = false
@@ -39,7 +43,30 @@ struct ContentView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal)
                     
-                    // Formulario de Entradas
+                    // Selector de Casos de Prueba Oficiales
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Cargar Caso de Prueba (Guía)")
+                            .font(.subheadline)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.blue)
+                        
+                        Picker("Caso", selection: $casoSeleccionado) {
+                            Text("Caso 1").tag(1)
+                            Text("Caso 2").tag(2)
+                            Text("Caso 3").tag(3)
+                            Text("Caso 4").tag(4)
+                        }
+                        .pickerStyle(SegmentedPickerStyle())
+                        .onChange(of: casoSeleccionado) { nuevoCaso in
+                            cargarDatosCaso(nuevoCaso)
+                        }
+                    }
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .cornerRadius(12)
+                    .padding(.horizontal)
+                    
+                    // Formulario de Parámetros
                     VStack(alignment: .leading, spacing: 12) {
                         Text("Parámetros del Mes")
                             .font(.subheadline)
@@ -105,6 +132,7 @@ struct ContentView: View {
                                 .frame(width: 120)
                         }
                         
+                        // Botón Calcular con validación de campos vacíos
                         Button(action: {
                             guard let basico = Double(sueldoBasicoInput), basico > 0 else {
                                 mensajeAlerta = "Faltan datos solicitados: Ingrese un sueldo básico válido."
@@ -153,10 +181,10 @@ struct ContentView: View {
                         Alert(title: Text("Aviso"), message: Text(mensajeAlerta), dismissButton: .default(Text("OK")))
                     }
                     
-                    // Resultados estructurados según la guía oficial
+                    // Resultados en bloques corporativos (Estilo boleta real)
                     if mostrado {
                         VStack(alignment: .leading, spacing: 16) {
-                            Text("Resultado de la Boleta")
+                            Text("Resultado de la Boleta (Caso \(casoSeleccionado))")
                                 .font(.headline)
                                 .foregroundColor(.primary)
                             
@@ -180,7 +208,7 @@ struct ContentView: View {
                             .cornerRadius(8)
                             .shadow(radius: 1)
                             
-                            // Bloque 2: RETENCIONES / DESCUENTOS (Mostrando ceros en los no aplicables)[cite: 6]
+                            // Bloque 2: RETENCIONES / DESCUENTOS (Muestra 0.00 en lo no aplicable)
                             VStack(alignment: .leading, spacing: 8) {
                                 Text("RETENCIONES / DESCUENTOS").font(.subheadline).bold().foregroundColor(.white)
                                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -201,7 +229,7 @@ struct ContentView: View {
                             .cornerRadius(8)
                             .shadow(radius: 1)
                             
-                            // Bloque 3: APORTACIONES DEL EMPLEADOR[cite: 6]
+                            // Bloque 3: APORTACIONES DEL EMPLEADOR
                             VStack(alignment: .leading, spacing: 8) {
                                 Text("APORTACIONES DEL EMPLEADOR").font(.subheadline).bold().foregroundColor(.white)
                                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -217,7 +245,7 @@ struct ContentView: View {
                             .cornerRadius(8)
                             .shadow(radius: 1)
                             
-                            // Neto a Pagar[cite: 6]
+                            // Neto a Pagar
                             HStack {
                                 Text("NETO A PAGAR:")
                                     .font(.title3)
@@ -243,6 +271,46 @@ struct ContentView: View {
                 .padding(.vertical)
             }
             .navigationBarHidden(true)
+        }
+    }
+    
+    // Función que autocompleta los 4 casos de la guía
+    func cargarDatosCaso(_ caso: Int) {
+        switch caso {
+        case 1:
+            sueldoBasicoInput = "2500"
+            diasLaboradosInput = "30"
+            tieneHijosToggle = false
+            esSistemaONP = true
+            horas25Input = "0"
+            horas35Input = "0"
+            adelantosInput = "0"
+        case 2:
+            sueldoBasicoInput = "1800"
+            diasLaboradosInput = "27"
+            tieneHijosToggle = true
+            esSistemaONP = true
+            horas25Input = "0"
+            horas35Input = "0"
+            adelantosInput = "0"
+        case 3:
+            sueldoBasicoInput = "3000"
+            diasLaboradosInput = "30"
+            tieneHijosToggle = true
+            esSistemaONP = false
+            horas25Input = "4"
+            horas35Input = "4"
+            adelantosInput = "200"
+        case 4:
+            sueldoBasicoInput = "4200"
+            diasLaboradosInput = "24"
+            tieneHijosToggle = true
+            esSistemaONP = false
+            horas25Input = "2"
+            horas35Input = "2"
+            adelantosInput = "100"
+        default:
+            break
         }
     }
 }
