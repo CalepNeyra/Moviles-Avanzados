@@ -10,7 +10,6 @@ import SwiftUI
 struct ContentView: View {
     @State private var calculadora = BoletaCalculadora()
     
-    // Todos los campos vacíos por defecto con placeholders de guía
     @State private var sueldoBasicoInput: String = ""
     @State private var diasLaboradosInput: String = ""
     @State private var tieneHijosToggle: Bool = false
@@ -107,7 +106,6 @@ struct ContentView: View {
                         }
                         
                         Button(action: {
-                            // Validaciones estrictas de campos obligatorios o vacíos
                             guard let basico = Double(sueldoBasicoInput), basico > 0 else {
                                 mensajeAlerta = "Faltan datos solicitados: Ingrese un sueldo básico válido."
                                 mostrarAlerta = true
@@ -155,16 +153,21 @@ struct ContentView: View {
                         Alert(title: Text("Aviso"), message: Text(mensajeAlerta), dismissButton: .default(Text("OK")))
                     }
                     
-                    // Resultados
+                    // Resultados estructurados según la guía oficial
                     if mostrado {
                         VStack(alignment: .leading, spacing: 16) {
                             Text("Resultado de la Boleta")
                                 .font(.headline)
                                 .foregroundColor(.primary)
                             
-                            // Bloque 1: Remuneraciones
+                            // Bloque 1: REMUNERACIONES
                             VStack(alignment: .leading, spacing: 8) {
-                                Text("REMUNERACIONES").font(.subheadline).bold().foregroundColor(.blue)
+                                Text("REMUNERACIONES").font(.subheadline).bold().foregroundColor(.white)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .padding(8)
+                                    .background(Color.blue)
+                                    .cornerRadius(6)
+                                
                                 FilaBoleta(concepto: "Sueldo computable", monto: calculadora.sueldoComputable)
                                 FilaBoleta(concepto: "Asignación familiar", monto: calculadora.asignacionFamiliar)
                                 FilaBoleta(concepto: "Horas extras 25%", monto: calculadora.montoHE25)
@@ -177,20 +180,18 @@ struct ContentView: View {
                             .cornerRadius(8)
                             .shadow(radius: 1)
                             
-                            // Bloque 2: Retenciones / Descuentos
+                            // Bloque 2: RETENCIONES / DESCUENTOS (Mostrando ceros en los no aplicables)[cite: 6]
                             VStack(alignment: .leading, spacing: 8) {
-                                Text("RETENCIONES / DESCUENTOS").font(.subheadline).bold().foregroundColor(.red)
-                                if esSistemaONP {
-                                    FilaBoleta(concepto: "ONP (13%)", monto: calculadora.montoONP)
-                                    FilaBoleta(concepto: "AFP fondo", monto: 0.0)
-                                    FilaBoleta(concepto: "AFP comisión", monto: 0.0)
-                                    FilaBoleta(concepto: "AFP seguro", monto: 0.0)
-                                } else {
-                                    FilaBoleta(concepto: "ONP", monto: 0.0)
-                                    FilaBoleta(concepto: "AFP fondo", monto: calculadora.montoAFPFondo)
-                                    FilaBoleta(concepto: "AFP comisión", monto: calculadora.montoAFPComision)
-                                    FilaBoleta(concepto: "AFP seguro", monto: calculadora.montoAFPSeguro)
-                                }
+                                Text("RETENCIONES / DESCUENTOS").font(.subheadline).bold().foregroundColor(.white)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .padding(8)
+                                    .background(Color.blue)
+                                    .cornerRadius(6)
+                                
+                                FilaBoleta(concepto: "ONP", monto: calculadora.montoONP)
+                                FilaBoleta(concepto: "AFP fondo", monto: calculadora.montoAFPFondo)
+                                FilaBoleta(concepto: "AFP comisión", monto: calculadora.montoAFPComision)
+                                FilaBoleta(concepto: "AFP seguro", monto: calculadora.montoAFPSeguro)
                                 FilaBoleta(concepto: "Adelantos", monto: calculadora.montoAdelantos)
                                 Divider()
                                 FilaBoleta(concepto: "Total descuentos", monto: calculadora.totalDescuentos, isBold: true)
@@ -200,9 +201,14 @@ struct ContentView: View {
                             .cornerRadius(8)
                             .shadow(radius: 1)
                             
-                            // Bloque 3: Aportaciones del Empleador
+                            // Bloque 3: APORTACIONES DEL EMPLEADOR[cite: 6]
                             VStack(alignment: .leading, spacing: 8) {
-                                Text("APORTACIONES DEL EMPLEADOR").font(.subheadline).bold().foregroundColor(.green)
+                                Text("APORTACIONES DEL EMPLEADOR").font(.subheadline).bold().foregroundColor(.white)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .padding(8)
+                                    .background(Color.blue)
+                                    .cornerRadius(6)
+                                
                                 FilaBoleta(concepto: "EsSalud (9%)", monto: calculadora.esSaludEmpleador)
                                 Divider()
                             }
@@ -211,7 +217,7 @@ struct ContentView: View {
                             .cornerRadius(8)
                             .shadow(radius: 1)
                             
-                            // Neto a Pagar
+                            // Neto a Pagar[cite: 6]
                             HStack {
                                 Text("NETO A PAGAR:")
                                     .font(.title3)
@@ -225,6 +231,11 @@ struct ContentView: View {
                             .padding()
                             .background(Color(.systemGray5))
                             .cornerRadius(10)
+                            
+                            Text("Los conceptos que no aplican se muestran con 0.00, como en la boleta real.")
+                                .font(.caption2)
+                                .italic()
+                                .foregroundColor(.secondary)
                         }
                         .padding(.horizontal)
                     }
