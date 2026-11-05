@@ -8,15 +8,22 @@
 import UIKit
 import CoreData
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating {
 
     @IBOutlet weak var TablaContacto: UITableView!
     var contactos = [Contacto]()
+    private let buscador = UISearchController(searchResultsController: nil)
 
     override func viewDidLoad() {
         super.viewDidLoad()
         TablaContacto.dataSource = self
         TablaContacto.delegate = self
+        buscador.searchResultsUpdater = self
+        buscador.obscuresBackgroundDuringPresentation = false
+        buscador.searchBar.placeholder = "Buscar por nombre"
+        navigationItem.searchController = buscador
+        navigationItem.hidesSearchBarWhenScrolling = false
+        definesPresentationContext = true
         mostrarRutaBaseDeDatos()
         cargarInfoCoreData()
     }
@@ -37,6 +44,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     // MARK: - READ
 
     func cargarInfoCoreData() {
+        let texto = buscador.searchBar.text ?? ""
+        if buscador.isActive && !texto.isEmpty {
+            contactos = buscarContactos(texto: texto)
+            return
+        }
+
         let contexto = conexion()
         let fetchRequest: NSFetchRequest<Contacto> = Contacto.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "nombre", ascending: true)]
@@ -46,6 +59,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         } catch {
             print("Error al cargar la BD: \(error)")
         }
+    }
+
+    func updateSearchResults(for searchController: UISearchController) {
+        cargarInfoCoreData()
+        TablaContacto.reloadData()
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
