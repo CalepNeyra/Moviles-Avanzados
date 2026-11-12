@@ -1,0 +1,247 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A10000000000000000000001 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000001 /* AppDelegate.swift */; };
+		A10000000000000000000002 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000002 /* SceneDelegate.swift */; };
+		A10000000000000000000003 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000003 /* Main.storyboard */; };
+		A10000000000000000000004 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000004 /* LaunchScreen.storyboard */; };
+		A10000000000000000000005 /* VentasTecsup.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A90000000000000000000001 /* VentasTecsup.xcdatamodeld */; };
+		A10000000000000000000006 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A20000000000000000000008 /* CoreData.framework */; };
+		A10000000000000000000010 /* Entidades.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000010 /* Entidades.swift */; };
+		A10000000000000000000011 /* ReglasVentas.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000011 /* ReglasVentas.swift */; };
+		A10000000000000000000012 /* Credenciales.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000012 /* Credenciales.swift */; };
+		A10000000000000000000013 /* RepositorioVentas.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000013 /* RepositorioVentas.swift */; };
+		A10000000000000000000014 /* ConsultasVentas.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000014 /* ConsultasVentas.swift */; };
+		A10000000000000000000015 /* ControladoresVentas.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000015 /* ControladoresVentas.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A20000000000000000000001 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		A20000000000000000000002 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		A20000000000000000000003 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		A20000000000000000000004 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		A20000000000000000000005 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A20000000000000000000006 /* VentasTecsup.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = VentasTecsup.xcdatamodel; sourceTree = "<group>"; };
+		A20000000000000000000007 /* VentasTecsup.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VentasTecsup.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A20000000000000000000008 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		A20000000000000000000010 /* Entidades.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entidades.swift; sourceTree = "<group>"; };
+		A20000000000000000000011 /* ReglasVentas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReglasVentas.swift; sourceTree = "<group>"; };
+		A20000000000000000000012 /* Credenciales.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Credenciales.swift; sourceTree = "<group>"; };
+		A20000000000000000000013 /* RepositorioVentas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositorioVentas.swift; sourceTree = "<group>"; };
+		A20000000000000000000014 /* ConsultasVentas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsultasVentas.swift; sourceTree = "<group>"; };
+		A20000000000000000000015 /* ControladoresVentas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControladoresVentas.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A30000000000000000000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000000000000000000006 /* CoreData.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A40000000000000000000001 = {
+			isa = PBXGroup;
+			children = (
+				A40000000000000000000002 /* VentasTecsup */,
+				A40000000000000000000003 /* Frameworks */,
+				A40000000000000000000004 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A40000000000000000000002 /* VentasTecsup */ = {
+			isa = PBXGroup;
+			children = (
+				A20000000000000000000001 /* AppDelegate.swift */,
+				A20000000000000000000002 /* SceneDelegate.swift */,
+				A20000000000000000000010 /* Entidades.swift */,
+				A20000000000000000000011 /* ReglasVentas.swift */,
+				A20000000000000000000012 /* Credenciales.swift */,
+				A20000000000000000000013 /* RepositorioVentas.swift */,
+				A20000000000000000000014 /* ConsultasVentas.swift */,
+				A20000000000000000000015 /* ControladoresVentas.swift */,
+				A20000000000000000000003 /* Main.storyboard */,
+				A20000000000000000000004 /* LaunchScreen.storyboard */,
+				A20000000000000000000005 /* Info.plist */,
+				A90000000000000000000001 /* VentasTecsup.xcdatamodeld */,
+			);
+			path = VentasTecsup;
+			sourceTree = "<group>";
+		};
+		A40000000000000000000003 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (A20000000000000000000008 /* CoreData.framework */,);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A40000000000000000000004 /* Products */ = {
+			isa = PBXGroup;
+			children = (A20000000000000000000007 /* VentasTecsup.app */,);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A50000000000000000000001 /* VentasTecsup */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A80000000000000000000002 /* Build configuration list for PBXNativeTarget "VentasTecsup" */;
+			buildPhases = (
+				A30000000000000000000002 /* Sources */,
+				A30000000000000000000001 /* Frameworks */,
+				A30000000000000000000003 /* Resources */,
+			);
+			buildRules = ();
+			dependencies = ();
+			name = VentasTecsup;
+			productName = VentasTecsup;
+			productReference = A20000000000000000000007 /* VentasTecsup.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A60000000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {BuildIndependentTargetsInParallel = 1; };
+			buildConfigurationList = A80000000000000000000001 /* Build configuration list for PBXProject "VentasTecsup" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = es;
+			hasScannedForEncodings = 0;
+			knownRegions = (es,);
+			mainGroup = A40000000000000000000001;
+			productRefGroup = A40000000000000000000004 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (A50000000000000000000001 /* VentasTecsup */,);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A30000000000000000000003 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000000000000000000003 /* Main.storyboard in Resources */,
+				A10000000000000000000004 /* LaunchScreen.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A30000000000000000000002 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000000000000000000001 /* AppDelegate.swift in Sources */,
+				A10000000000000000000002 /* SceneDelegate.swift in Sources */,
+				A10000000000000000000010 /* Entidades.swift in Sources */,
+				A10000000000000000000011 /* ReglasVentas.swift in Sources */,
+				A10000000000000000000012 /* Credenciales.swift in Sources */,
+				A10000000000000000000013 /* RepositorioVentas.swift in Sources */,
+				A10000000000000000000014 /* ConsultasVentas.swift in Sources */,
+				A10000000000000000000015 /* ControladoresVentas.swift in Sources */,
+				A10000000000000000000005 /* VentasTecsup.xcdatamodeld in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		A70000000000000000000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A70000000000000000000002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		A70000000000000000000003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = VentasTecsup/Info.plist;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = pe.edu.tecsup.VentasTecsup;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A70000000000000000000004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = VentasTecsup/Info.plist;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = pe.edu.tecsup.VentasTecsup;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A80000000000000000000001 /* Build configuration list for PBXProject "VentasTecsup" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (A70000000000000000000001 /* Debug */, A70000000000000000000002 /* Release */,);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A80000000000000000000002 /* Build configuration list for PBXNativeTarget "VentasTecsup" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (A70000000000000000000003 /* Debug */, A70000000000000000000004 /* Release */,);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		A90000000000000000000001 /* VentasTecsup.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (A20000000000000000000006 /* VentasTecsup.xcdatamodel */,);
+			currentVersion = A20000000000000000000006 /* VentasTecsup.xcdatamodel */;
+			path = VentasTecsup.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = A60000000000000000000001 /* Project object */;
+}
