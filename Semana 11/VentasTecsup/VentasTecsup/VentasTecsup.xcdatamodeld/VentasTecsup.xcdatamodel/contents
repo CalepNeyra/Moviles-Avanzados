@@ -6,11 +6,6 @@
         <attribute name="clave" attributeType="String"/>
         <attribute name="rol" attributeType="String"/>
         <relationship name="ventas" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="Venta" inverseName="vendedor" inverseEntity="Venta"/>
-        <uniquenessConstraints>
-            <uniquenessConstraint>
-                <constraint value="usuario"/>
-            </uniquenessConstraint>
-        </uniquenessConstraints>
     </entity>
     <entity name="Producto" representedClassName="Producto" syncable="YES">
         <attribute name="nombre" attributeType="String"/>
