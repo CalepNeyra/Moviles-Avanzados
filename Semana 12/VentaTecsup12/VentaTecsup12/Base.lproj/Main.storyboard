@@ -1,24 +1,1082 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<?xml version='1.0' encoding='UTF-8'?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24000" targetRuntime="iOS.CocoaTouch" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="auth-nav">
+    <device id="retina6_1" orientation="portrait" appearance="light" />
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
-        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+        <deployment identifier="iOS" />
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24000" />
+        <capability name="Safe area layout guides" minToolsVersion="9.0" />
+        <capability name="System colors in document resources" minToolsVersion="11.0" />
     </dependencies>
     <scenes>
-        <!--View Controller-->
-        <scene sceneID="tne-QT-ifu">
+        <scene sceneID="auth-nav-scene">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <navigationController id="auth-nav" sceneMemberID="viewController" storyboardIdentifier="Acceso">
+                    <navigationBar key="navigationBar" id="auth-bar" />
+                    <connections>
+                        <segue destination="A1" kind="relationship" relationship="rootViewController" id="auth-root" />
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="auth-nav-first" sceneMemberID="firstResponder" />
             </objects>
+            <point key="canvasLocation" x="0" y="0" />
+        </scene>
+        <scene sceneID="tabs-scene">
+            <objects>
+                <tabBarController id="tabs" sceneMemberID="viewController" storyboardIdentifier="Pestanas">
+                    <tabBar key="tabBar" id="tabs-bar" contentMode="scaleToFill" />
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tabs-first" sceneMemberID="firstResponder" />
+            </objects>
+            <point key="canvasLocation" x="510" y="0" />
+        </scene>
+        <scene sceneID="A1-scene">
+            <objects>
+                <viewController id="A1" sceneMemberID="viewController" storyboardIdentifier="A1" customClass="IngresoViewController" customModule="VentaTecsup12" customModuleProvider="target">
+                    <view key="view" contentMode="scaleToFill" id="A1-view">
+                        <rect key="frame" x="0" y="0" width="414" height="896" />
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" />
+                        <subviews>
+                            <scrollView id="A1-scroll" translatesAutoresizingMaskIntoConstraints="NO" keyboardDismissMode="onDrag">
+                                <rect key="frame" x="0" y="59" width="414" height="802" />
+                                <viewLayoutGuide key="contentLayoutGuide" id="A1-content" />
+                                <viewLayoutGuide key="frameLayoutGuide" id="A1-frame" />
+                                <subviews>
+                                    <stackView axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="A1-stack">
+                                        <rect key="frame" x="20" y="24" width="374" height="367" />
+                                        <subviews>
+                                            <stackView id="A1-marca" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" alignment="center">
+                                                <rect key="frame" x="0" y="0" width="374" height="156" />
+                                                <subviews>
+                                                    <imageView image="cart.fill" catalog="system" contentMode="scaleAspectFit" id="A1-logo" translatesAutoresizingMaskIntoConstraints="NO">
+                                                        <rect key="frame" x="145" y="0" width="84" height="84" />
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="84" id="A1-logo-height" />
+                                                            <constraint firstAttribute="width" constant="84" id="A1-logo-width" />
+                                                        </constraints>
+                                                    </imageView>
+                                                    <label text="Ventas Tecsup" numberOfLines="0" textAlignment="center" id="A1-hero" translatesAutoresizingMaskIntoConstraints="NO">
+                                                        <rect key="frame" x="0" y="92" width="374" height="35" />
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="29" />
+                                                    </label>
+                                                    <label text="Inicia sesión para continuar" numberOfLines="0" textAlignment="center" id="A1-subtitulo" translatesAutoresizingMaskIntoConstraints="NO">
+                                                        <rect key="frame" x="0" y="135" width="374" height="20" />
+                                                        <fontDescription key="fontDescription" type="system" pointSize="15" />
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView id="A1-usuario-card" axis="vertical" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" layoutMarginsRelativeArrangement="YES" customClass="CampoMaqueta" customModule="VentaTecsup12" customModuleProvider="target">
+                                                <rect key="frame" x="0" y="166" width="374" height="64" />
+                                                <subviews>
+                                                    <label id="A1-usuario-caption" text="USUARIO" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="natural">
+                                                        <rect key="frame" x="14" y="9" width="346" height="20" />
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="11" />
+                                                        <color key="textColor" systemColor="secondaryLabelColor" />
+                                                    </label>
+                                                    <textField borderStyle="none" id="A1-usuario" translatesAutoresizingMaskIntoConstraints="NO">
+                                                        <rect key="frame" x="14" y="30" width="346" height="29" />
+                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" textContentType="username" autocapitalizationType="none" />
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="29" id="A1-usuario-height" relation="greaterThanOrEqual" />
+                                                        </constraints>
+                                                    </textField>
+                                                </subviews>
+                                                <edgeInsets key="layoutMargins" top="9" left="14" bottom="9" right="14" />
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" />
+                                            </stackView>
+                                            <stackView id="A1-clave-card" axis="vertical" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" layoutMarginsRelativeArrangement="YES" customClass="CampoMaqueta" customModule="VentaTecsup12" customModuleProvider="target">
+                                                <rect key="frame" x="0" y="240" width="374" height="64" />
+                                                <subviews>
+                                                    <label id="A1-clave-caption" text="CLAVE" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="natural">
+                                                        <rect key="frame" x="14" y="9" width="346" height="20" />
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="11" />
+                                                        <color key="textColor" systemColor="secondaryLabelColor" />
+                                                    </label>
+                                                    <textField borderStyle="none" id="A1-clave" translatesAutoresizingMaskIntoConstraints="NO">
+                                                        <rect key="frame" x="14" y="30" width="346" height="29" />
+                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" secureTextEntry="YES" textContentType="password" />
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="29" id="A1-clave-height" relation="greaterThanOrEqual" />
+                                                        </constraints>
+                                                    </textField>
+                                                </subviews>
+                                                <edgeInsets key="layoutMargins" top="9" left="14" bottom="9" right="14" />
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" />
+                                            </stackView>
+                                            <label text="" numberOfLines="0" textAlignment="center" id="A1-aviso" translatesAutoresizingMaskIntoConstraints="NO" hidden="YES">
+                                                <rect key="frame" x="0" y="314" width="374" height="0" />
+                                                <fontDescription key="fontDescription" type="system" pointSize="14" />
+                                            </label>
+                                            <button buttonType="system" id="A1-entrar" translatesAutoresizingMaskIntoConstraints="NO">
+                                                <rect key="frame" x="0" y="324" width="374" height="49" />
+                                                <buttonConfiguration key="configuration" style="filled" title="Ingresar" />
+                                                <connections>
+                                                    <action selector="entrarTocado:" destination="A1" eventType="touchUpInside" id="A1-entrar-action" />
+                                                </connections>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="49" id="A1-entrar-height" />
+                                                </constraints>
+                                            </button>
+                                            <button buttonType="system" id="A1-registro" translatesAutoresizingMaskIntoConstraints="NO">
+                                                <rect key="frame" x="0" y="383" width="374" height="34" />
+                                                <buttonConfiguration key="configuration" style="plain" title="Crear cuenta" />
+                                                <connections>
+                                                    <action selector="registroTocado:" destination="A1" eventType="touchUpInside" id="A1-registro-action" />
+                                                </connections>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="34" id="A1-registro-height" />
+                                                </constraints>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="A1-stack" firstAttribute="top" secondItem="A1-content" secondAttribute="top" constant="38" id="A1-stack-top" />
+                                    <constraint firstItem="A1-stack" firstAttribute="leading" secondItem="A1-content" secondAttribute="leading" constant="20" id="A1-stack-leading" />
+                                    <constraint firstItem="A1-stack" firstAttribute="bottom" secondItem="A1-content" secondAttribute="bottom" constant="-20" id="A1-stack-bottom" />
+                                    <constraint firstItem="A1-stack" firstAttribute="trailing" secondItem="A1-content" secondAttribute="trailing" constant="-20" id="A1-stack-trailing" />
+                                    <constraint firstItem="A1-stack" firstAttribute="width" secondItem="A1-frame" secondAttribute="width" constant="-40" id="A1-width" />
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="A1-safe" />
+                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor" />
+                        <constraints>
+                            <constraint firstItem="A1-scroll" firstAttribute="top" secondItem="A1-safe" secondAttribute="top" constant="0" id="A1-scroll-top" />
+                            <constraint firstItem="A1-scroll" firstAttribute="leading" secondItem="A1-safe" secondAttribute="leading" constant="0" id="A1-scroll-leading" />
+                            <constraint firstItem="A1-scroll" firstAttribute="bottom" secondItem="A1-safe" secondAttribute="bottom" constant="0" id="A1-scroll-bottom" />
+                            <constraint firstItem="A1-scroll" firstAttribute="trailing" secondItem="A1-safe" secondAttribute="trailing" constant="0" id="A1-scroll-trailing" />
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Ingresar" id="A1-navitem" />
+                    <connections>
+                        <outlet property="logo" destination="A1-logo" id="A1-logo-outlet" />
+                        <outlet property="hero" destination="A1-hero" id="A1-hero-outlet" />
+                        <outlet property="subtitulo" destination="A1-subtitulo" id="A1-subtitulo-outlet" />
+                        <outlet property="usuario" destination="A1-usuario" id="A1-usuario-outlet" />
+                        <outlet property="clave" destination="A1-clave" id="A1-clave-outlet" />
+                        <outlet property="aviso" destination="A1-aviso" id="A1-aviso-outlet" />
+                        <outlet property="entrar" destination="A1-entrar" id="A1-entrar-outlet" />
+                        <outlet property="registro" destination="A1-registro" id="A1-registro-outlet" />
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="A1-first" sceneMemberID="firstResponder" />
+            </objects>
+            <point key="canvasLocation" x="1020" y="0" />
+        </scene>
+        <scene sceneID="A2-scene">
+            <objects>
+                <viewController id="A2" sceneMemberID="viewController" storyboardIdentifier="A2" customClass="RegistroViewController" customModule="VentaTecsup12" customModuleProvider="target">
+                    <view key="view" contentMode="scaleToFill" id="A2-view">
+                        <rect key="frame" x="0" y="0" width="414" height="896" />
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" />
+                        <subviews>
+                            <scrollView id="A2-scroll" translatesAutoresizingMaskIntoConstraints="NO" keyboardDismissMode="onDrag">
+                                <rect key="frame" x="0" y="59" width="414" height="802" />
+                                <viewLayoutGuide key="contentLayoutGuide" id="A2-content" />
+                                <viewLayoutGuide key="frameLayoutGuide" id="A2-frame" />
+                                <subviews>
+                                    <stackView axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="A2-stack">
+                                        <rect key="frame" x="20" y="24" width="374" height="393" />
+                                        <subviews>
+                                            <stackView id="A2-nombre-card" axis="vertical" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" layoutMarginsRelativeArrangement="YES" customClass="CampoMaqueta" customModule="VentaTecsup12" customModuleProvider="target">
+                                                <rect key="frame" x="0" y="0" width="374" height="64" />
+                                                <subviews>
+                                                    <label id="A2-nombre-caption" text="NOMBRE COMPLETO" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="natural">
+                                                        <rect key="frame" x="14" y="9" width="346" height="20" />
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="11" />
+                                                        <color key="textColor" systemColor="secondaryLabelColor" />
+                                                    </label>
+                                                    <textField borderStyle="none" id="A2-nombre" translatesAutoresizingMaskIntoConstraints="NO">
+                                                        <rect key="frame" x="14" y="30" width="346" height="29" />
+                                                        <textInputTraits key="textInputTraits" autocorrectionType="default" />
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="29" id="A2-nombre-height" relation="greaterThanOrEqual" />
+                                                        </constraints>
+                                                    </textField>
+                                                </subviews>
+                                                <edgeInsets key="layoutMargins" top="9" left="14" bottom="9" right="14" />
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" />
+                                            </stackView>
+                                            <stackView id="A2-usuario-card" axis="vertical" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" layoutMarginsRelativeArrangement="YES" customClass="CampoMaqueta" customModule="VentaTecsup12" customModuleProvider="target">
+                                                <rect key="frame" x="0" y="74" width="374" height="64" />
+                                                <subviews>
+                                                    <stackView id="A2-usuario-header" axis="horizontal" spacing="8" translatesAutoresizingMaskIntoConstraints="NO">
+                                                        <rect key="frame" x="14" y="9" width="346" height="20" />
+                                                        <subviews>
+                                                            <label id="A2-usuario-caption" text="USUARIO" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="natural">
+                                                                <rect key="frame" x="0" y="0" width="169" height="20" />
+                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="11" />
+                                                                <color key="textColor" systemColor="secondaryLabelColor" />
+                                                            </label>
+                                                            <label text="" numberOfLines="0" textAlignment="natural" id="A2-aviso" translatesAutoresizingMaskIntoConstraints="NO" hidden="YES">
+                                                                <rect key="frame" x="177" y="0" width="169" height="0" />
+                                                                <fontDescription key="fontDescription" type="system" pointSize="12" />
+                                                            </label>
+                                                        </subviews>
+                                                    </stackView>
+                                                    <textField borderStyle="none" id="A2-usuario" translatesAutoresizingMaskIntoConstraints="NO">
+                                                        <rect key="frame" x="14" y="30" width="346" height="29" />
+                                                        <textInputTraits key="textInputTraits" autocorrectionType="default" textContentType="username" autocapitalizationType="none" />
+                                                        <connections>
+                                                            <action selector="actualizar:" destination="A2" eventType="editingChanged" id="A2-usuario-action" />
+                                                        </connections>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="29" id="A2-usuario-height" relation="greaterThanOrEqual" />
+                                                        </constraints>
+                                                    </textField>
+                                                </subviews>
+                                                <edgeInsets key="layoutMargins" top="9" left="14" bottom="9" right="14" />
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" />
+                                            </stackView>
+                                            <stackView id="A2-clave-card" axis="vertical" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" layoutMarginsRelativeArrangement="YES" customClass="CampoMaqueta" customModule="VentaTecsup12" customModuleProvider="target">
+                                                <rect key="frame" x="0" y="148" width="374" height="64" />
+                                                <subviews>
+                                                    <label id="A2-clave-caption" text="CLAVE (MÍNIMO 6 CARACTERES)" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="natural">
+                                                        <rect key="frame" x="14" y="9" width="346" height="20" />
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="11" />
+                                                        <color key="textColor" systemColor="secondaryLabelColor" />
+                                                    </label>
+                                                    <textField borderStyle="none" id="A2-clave" translatesAutoresizingMaskIntoConstraints="NO">
+                                                        <rect key="frame" x="14" y="30" width="346" height="29" />
+                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" secureTextEntry="YES" textContentType="newPassword" />
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="29" id="A2-clave-height" relation="greaterThanOrEqual" />
+                                                        </constraints>
+                                                    </textField>
+                                                </subviews>
+                                                <edgeInsets key="layoutMargins" top="9" left="14" bottom="9" right="14" />
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" />
+                                            </stackView>
+                                            <stackView id="A2-repetir-card" axis="vertical" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" layoutMarginsRelativeArrangement="YES" customClass="CampoMaqueta" customModule="VentaTecsup12" customModuleProvider="target">
+                                                <rect key="frame" x="0" y="222" width="374" height="64" />
+                                                <subviews>
+                                                    <label id="A2-repetir-caption" text="CONFIRMAR CLAVE" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="natural">
+                                                        <rect key="frame" x="14" y="9" width="346" height="20" />
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="11" />
+                                                        <color key="textColor" systemColor="secondaryLabelColor" />
+                                                    </label>
+                                                    <textField borderStyle="none" id="A2-repetir" translatesAutoresizingMaskIntoConstraints="NO">
+                                                        <rect key="frame" x="14" y="30" width="346" height="29" />
+                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" secureTextEntry="YES" textContentType="newPassword" />
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="29" id="A2-repetir-height" relation="greaterThanOrEqual" />
+                                                        </constraints>
+                                                    </textField>
+                                                </subviews>
+                                                <edgeInsets key="layoutMargins" top="9" left="14" bottom="9" right="14" />
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" />
+                                            </stackView>
+                                            <label id="A2-rol-caption" text="TU ROL" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="natural">
+                                                <rect key="frame" x="0" y="296" width="374" height="20" />
+                                                <fontDescription key="fontDescription" type="system" pointSize="12" />
+                                                <color key="textColor" systemColor="secondaryLabelColor" />
+                                            </label>
+                                            <segmentedControl selectedSegmentIndex="0" id="A2-rol" translatesAutoresizingMaskIntoConstraints="NO">
+                                                <rect key="frame" x="0" y="326" width="374" height="34" />
+                                                <segments>
+                                                    <segment title="Vendedor" />
+                                                    <segment title="Supervisor" />
+                                                </segments>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="34" id="A2-rol-height" />
+                                                </constraints>
+                                            </segmentedControl>
+                                            <button buttonType="system" id="A2-guardar" translatesAutoresizingMaskIntoConstraints="NO">
+                                                <rect key="frame" x="0" y="370" width="374" height="49" />
+                                                <buttonConfiguration key="configuration" style="filled" title="Registrarme" />
+                                                <connections>
+                                                    <action selector="guardarTocado:" destination="A2" eventType="touchUpInside" id="A2-guardar-action" />
+                                                </connections>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="49" id="A2-guardar-height" />
+                                                </constraints>
+                                            </button>
+                                            <label id="A2-nota" text="Al registrarte entrarás directamente a la app con las pestañas de tu rol." numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="center">
+                                                <rect key="frame" x="0" y="429" width="374" height="34" />
+                                                <fontDescription key="fontDescription" type="system" pointSize="13" />
+                                                <color key="textColor" systemColor="secondaryLabelColor" />
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="A2-stack" firstAttribute="top" secondItem="A2-content" secondAttribute="top" constant="12" id="A2-stack-top" />
+                                    <constraint firstItem="A2-stack" firstAttribute="leading" secondItem="A2-content" secondAttribute="leading" constant="20" id="A2-stack-leading" />
+                                    <constraint firstItem="A2-stack" firstAttribute="bottom" secondItem="A2-content" secondAttribute="bottom" constant="-20" id="A2-stack-bottom" />
+                                    <constraint firstItem="A2-stack" firstAttribute="trailing" secondItem="A2-content" secondAttribute="trailing" constant="-20" id="A2-stack-trailing" />
+                                    <constraint firstItem="A2-stack" firstAttribute="width" secondItem="A2-frame" secondAttribute="width" constant="-40" id="A2-width" />
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="A2-safe" />
+                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor" />
+                        <constraints>
+                            <constraint firstItem="A2-scroll" firstAttribute="top" secondItem="A2-safe" secondAttribute="top" constant="0" id="A2-scroll-top" />
+                            <constraint firstItem="A2-scroll" firstAttribute="leading" secondItem="A2-safe" secondAttribute="leading" constant="0" id="A2-scroll-leading" />
+                            <constraint firstItem="A2-scroll" firstAttribute="bottom" secondItem="A2-safe" secondAttribute="bottom" constant="0" id="A2-scroll-bottom" />
+                            <constraint firstItem="A2-scroll" firstAttribute="trailing" secondItem="A2-safe" secondAttribute="trailing" constant="0" id="A2-scroll-trailing" />
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Crear cuenta" id="A2-navitem" />
+                    <connections>
+                        <outlet property="nombre" destination="A2-nombre" id="A2-nombre-outlet" />
+                        <outlet property="usuario" destination="A2-usuario" id="A2-usuario-outlet" />
+                        <outlet property="aviso" destination="A2-aviso" id="A2-aviso-outlet" />
+                        <outlet property="clave" destination="A2-clave" id="A2-clave-outlet" />
+                        <outlet property="repetir" destination="A2-repetir" id="A2-repetir-outlet" />
+                        <outlet property="rol" destination="A2-rol" id="A2-rol-outlet" />
+                        <outlet property="guardar" destination="A2-guardar" id="A2-guardar-outlet" />
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="A2-first" sceneMemberID="firstResponder" />
+            </objects>
+            <point key="canvasLocation" x="1530" y="0" />
+        </scene>
+        <scene sceneID="A3-scene">
+            <objects>
+                <viewController id="A3" sceneMemberID="viewController" storyboardIdentifier="A3" customClass="ProductosViewController" customModule="VentaTecsup12" customModuleProvider="target">
+                    <view key="view" contentMode="scaleToFill" id="A3-view">
+                        <rect key="frame" x="0" y="0" width="414" height="896" />
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" />
+                        <subviews>
+                            <stackView axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="A3-stack">
+                                <rect key="frame" x="16" y="103" width="382" height="700" />
+                                <subviews>
+                                    <textField placeholder="Buscar producto" borderStyle="none" id="A3-buscar" translatesAutoresizingMaskIntoConstraints="NO" customClass="BusquedaMaqueta" customModule="VentaTecsup12" customModuleProvider="target">
+                                        <rect key="frame" x="0" y="0" width="382" height="35" />
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" />
+                                        <connections>
+                                            <action selector="actualizar:" destination="A3" eventType="editingChanged" id="A3-buscar-action" />
+                                        </connections>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="35" id="A3-buscar-height" />
+                                        </constraints>
+                                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor" />
+                                    </textField>
+                                    <scrollView showsHorizontalScrollIndicator="NO" id="A3-filtros" translatesAutoresizingMaskIntoConstraints="NO">
+                                        <rect key="frame" x="0" y="43" width="382" height="34" />
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="34" id="A3-filtros-height" />
+                                        </constraints>
+                                    </scrollView>
+                                    <tableView style="plain" rowHeight="-1" estimatedRowHeight="72" id="A3-lista" translatesAutoresizingMaskIntoConstraints="NO" alwaysBounceVertical="NO">
+                                        <rect key="frame" x="0" y="85" width="382" height="430" />
+                                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor" />
+                                    </tableView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="A3-safe" />
+                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor" />
+                        <constraints>
+                            <constraint firstItem="A3-stack" firstAttribute="top" secondItem="A3-safe" secondAttribute="top" constant="4" id="A3-list-top" />
+                            <constraint firstItem="A3-stack" firstAttribute="leading" secondItem="A3-safe" secondAttribute="leading" constant="16" id="A3-list-leading" />
+                            <constraint firstItem="A3-stack" firstAttribute="bottom" secondItem="A3-safe" secondAttribute="bottom" constant="0" id="A3-list-bottom" />
+                            <constraint firstItem="A3-stack" firstAttribute="trailing" secondItem="A3-safe" secondAttribute="trailing" constant="-16" id="A3-list-trailing" />
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Productos" id="A3-navitem" />
+                    <connections>
+                        <outlet property="buscar" destination="A3-buscar" id="A3-buscar-outlet" />
+                        <outlet property="filtros" destination="A3-filtros" id="A3-filtros-outlet" />
+                        <outlet property="lista" destination="A3-lista" id="A3-lista-outlet" />
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="A3-first" sceneMemberID="firstResponder" />
+            </objects>
+            <point key="canvasLocation" x="0" y="1050" />
+        </scene>
+        <scene sceneID="A4-scene">
+            <objects>
+                <viewController id="A4" sceneMemberID="viewController" storyboardIdentifier="A4" customClass="ClientesViewController" customModule="VentaTecsup12" customModuleProvider="target">
+                    <view key="view" contentMode="scaleToFill" id="A4-view">
+                        <rect key="frame" x="0" y="0" width="414" height="896" />
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" />
+                        <subviews>
+                            <stackView axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="A4-stack">
+                                <rect key="frame" x="16" y="103" width="382" height="700" />
+                                <subviews>
+                                    <textField placeholder="Buscar por nombre o documento" borderStyle="none" id="A4-buscar" translatesAutoresizingMaskIntoConstraints="NO" customClass="BusquedaMaqueta" customModule="VentaTecsup12" customModuleProvider="target">
+                                        <rect key="frame" x="0" y="0" width="382" height="35" />
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" />
+                                        <connections>
+                                            <action selector="actualizar:" destination="A4" eventType="editingChanged" id="A4-buscar-action" />
+                                        </connections>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="35" id="A4-buscar-height" />
+                                        </constraints>
+                                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor" />
+                                    </textField>
+                                    <tableView style="plain" rowHeight="-1" estimatedRowHeight="72" id="A4-lista" translatesAutoresizingMaskIntoConstraints="NO" alwaysBounceVertical="NO">
+                                        <rect key="frame" x="0" y="43" width="382" height="430" />
+                                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor" />
+                                    </tableView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="A4-safe" />
+                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor" />
+                        <constraints>
+                            <constraint firstItem="A4-stack" firstAttribute="top" secondItem="A4-safe" secondAttribute="top" constant="4" id="A4-list-top" />
+                            <constraint firstItem="A4-stack" firstAttribute="leading" secondItem="A4-safe" secondAttribute="leading" constant="16" id="A4-list-leading" />
+                            <constraint firstItem="A4-stack" firstAttribute="bottom" secondItem="A4-safe" secondAttribute="bottom" constant="0" id="A4-list-bottom" />
+                            <constraint firstItem="A4-stack" firstAttribute="trailing" secondItem="A4-safe" secondAttribute="trailing" constant="-16" id="A4-list-trailing" />
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Clientes" id="A4-navitem" />
+                    <connections>
+                        <outlet property="buscar" destination="A4-buscar" id="A4-buscar-outlet" />
+                        <outlet property="lista" destination="A4-lista" id="A4-lista-outlet" />
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="A4-first" sceneMemberID="firstResponder" />
+            </objects>
+            <point key="canvasLocation" x="510" y="1050" />
+        </scene>
+        <scene sceneID="A5-scene">
+            <objects>
+                <viewController id="A5" sceneMemberID="viewController" storyboardIdentifier="A5" customClass="NuevaVentaViewController" customModule="VentaTecsup12" customModuleProvider="target">
+                    <view key="view" contentMode="scaleToFill" id="A5-view">
+                        <rect key="frame" x="0" y="0" width="414" height="896" />
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" />
+                        <subviews>
+                            <scrollView id="A5-scroll" translatesAutoresizingMaskIntoConstraints="NO" keyboardDismissMode="onDrag">
+                                <rect key="frame" x="0" y="59" width="414" height="802" />
+                                <viewLayoutGuide key="contentLayoutGuide" id="A5-content" />
+                                <viewLayoutGuide key="frameLayoutGuide" id="A5-frame" />
+                                <subviews>
+                                    <stackView axis="vertical" spacing="11" translatesAutoresizingMaskIntoConstraints="NO" id="A5-stack">
+                                        <rect key="frame" x="16" y="24" width="382" height="449" />
+                                        <subviews>
+                                            <stackView id="A5-sesion" axis="horizontal" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" alignment="center" layoutMarginsRelativeArrangement="YES" customClass="TarjetaMaqueta" customModule="VentaTecsup12" customModuleProvider="target">
+                                                <rect key="frame" x="0" y="0" width="382" height="68" />
+                                                <color key="backgroundColor" red="0.90" green="0.93" blue="0.99" alpha="1" colorSpace="custom" customColorSpace="sRGB" />
+                                                <subviews>
+                                                    <label id="A5-vendedorIniciales" text="" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO">
+                                                        <rect key="frame" x="13" y="12" width="173" height="36" />
+                                                        <fontDescription key="fontDescription" type="system" pointSize="13" />
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="36" id="A5-avatar-width" />
+                                                            <constraint firstAttribute="height" constant="36" id="A5-avatar-height" />
+                                                        </constraints>
+                                                    </label>
+                                                    <label text="Vendedor" numberOfLines="0" textAlignment="natural" id="A5-vendedorLabel" translatesAutoresizingMaskIntoConstraints="NO">
+                                                        <rect key="frame" x="196" y="12" width="173" height="20" />
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14" />
+                                                    </label>
+                                                </subviews>
+                                                <edgeInsets key="layoutMargins" top="12" left="13" bottom="12" right="13" />
+                                            </stackView>
+                                            <stackView id="A5-seleccion-card" axis="vertical" spacing="0" translatesAutoresizingMaskIntoConstraints="NO" customClass="TarjetaMaqueta" customModule="VentaTecsup12" customModuleProvider="target">
+                                                <rect key="frame" x="0" y="79" width="382" height="134" />
+                                                <subviews>
+                                                    <stackView id="A5-cliente-row" axis="horizontal" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" alignment="center" layoutMarginsRelativeArrangement="YES">
+                                                        <rect key="frame" x="0" y="0" width="382" height="44" />
+                                                        <subviews>
+                                                            <label id="A5-cliente-caption" text="Cliente" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="natural">
+                                                                <rect key="frame" x="13" y="0" width="174" height="20" />
+                                                                <fontDescription key="fontDescription" type="system" pointSize="16" />
+                                                            </label>
+                                                            <button buttonType="system" id="A5-clienteBoton" translatesAutoresizingMaskIntoConstraints="NO">
+                                                                <rect key="frame" x="195" y="0" width="174" height="44" />
+                                                                <buttonConfiguration key="configuration" style="plain" title="Elegir cliente" />
+                                                                <connections>
+                                                                    <action selector="clienteBotonTocado:" destination="A5" eventType="touchUpInside" id="A5-clienteBoton-action" />
+                                                                </connections>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="A5-clienteBoton-height" />
+                                                                </constraints>
+                                                            </button>
+                                                        </subviews>
+                                                        <edgeInsets key="layoutMargins" top="0" left="13" bottom="0" right="13" />
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="44" id="A5-cliente-row-height" relation="greaterThanOrEqual" />
+                                                        </constraints>
+                                                    </stackView>
+                                                    <view id="A5-div-cliente" translatesAutoresizingMaskIntoConstraints="NO">
+                                                        <rect key="frame" x="0" y="44" width="382" height="1" />
+                                                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor" />
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="1" id="A5-div-cliente-height" />
+                                                        </constraints>
+                                                    </view>
+                                                    <stackView id="A5-producto-row" axis="horizontal" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" alignment="center" layoutMarginsRelativeArrangement="YES">
+                                                        <rect key="frame" x="0" y="45" width="382" height="44" />
+                                                        <subviews>
+                                                            <label id="A5-producto-caption" text="Producto" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="natural">
+                                                                <rect key="frame" x="13" y="0" width="174" height="20" />
+                                                                <fontDescription key="fontDescription" type="system" pointSize="16" />
+                                                            </label>
+                                                            <button buttonType="system" id="A5-productoBoton" translatesAutoresizingMaskIntoConstraints="NO">
+                                                                <rect key="frame" x="195" y="0" width="174" height="44" />
+                                                                <buttonConfiguration key="configuration" style="plain" title="Elegir producto" />
+                                                                <connections>
+                                                                    <action selector="productoBotonTocado:" destination="A5" eventType="touchUpInside" id="A5-productoBoton-action" />
+                                                                </connections>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="A5-productoBoton-height" />
+                                                                </constraints>
+                                                            </button>
+                                                        </subviews>
+                                                        <edgeInsets key="layoutMargins" top="0" left="13" bottom="0" right="13" />
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="44" id="A5-producto-row-height" relation="greaterThanOrEqual" />
+                                                        </constraints>
+                                                    </stackView>
+                                                    <view id="A5-div-producto" translatesAutoresizingMaskIntoConstraints="NO">
+                                                        <rect key="frame" x="0" y="89" width="382" height="1" />
+                                                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor" />
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="1" id="A5-div-producto-height" />
+                                                        </constraints>
+                                                    </view>
+                                                    <stackView id="A5-cantidad-row" axis="horizontal" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" alignment="center" layoutMarginsRelativeArrangement="YES">
+                                                        <rect key="frame" x="0" y="90" width="382" height="44" />
+                                                        <subviews>
+                                                            <label text="Cantidad" numberOfLines="0" textAlignment="natural" id="A5-cantidadLabel" translatesAutoresizingMaskIntoConstraints="NO">
+                                                                <rect key="frame" x="13" y="0" width="174" height="20" />
+                                                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody" />
+                                                            </label>
+                                                            <stepper value="1" minimumValue="1" maximumValue="999999" id="A5-cantidad" translatesAutoresizingMaskIntoConstraints="NO">
+                                                                <rect key="frame" x="195" y="0" width="174" height="38" />
+                                                                <connections>
+                                                                    <action selector="actualizar:" destination="A5" eventType="valueChanged" id="A5-cantidad-action" />
+                                                                </connections>
+                                                            </stepper>
+                                                        </subviews>
+                                                        <edgeInsets key="layoutMargins" top="0" left="13" bottom="0" right="13" />
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="44" id="A5-cantidad-row-height" relation="greaterThanOrEqual" />
+                                                        </constraints>
+                                                    </stackView>
+                                                </subviews>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" />
+                                            </stackView>
+                                            <label id="A5-resumen-title" text="RESUMEN (CALCULADO)" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="natural">
+                                                <rect key="frame" x="0" y="224" width="382" height="20" />
+                                                <fontDescription key="fontDescription" type="system" pointSize="12" />
+                                                <color key="textColor" systemColor="secondaryLabelColor" />
+                                            </label>
+                                            <stackView id="A5-resumen-card" axis="vertical" spacing="0" translatesAutoresizingMaskIntoConstraints="NO" customClass="TarjetaMaqueta" customModule="VentaTecsup12" customModuleProvider="target">
+                                                <rect key="frame" x="0" y="255" width="382" height="179" />
+                                                <subviews>
+                                                    <stackView id="A5-subtotal-row" axis="horizontal" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" alignment="center" layoutMarginsRelativeArrangement="YES">
+                                                        <rect key="frame" x="0" y="0" width="382" height="44" />
+                                                        <subviews>
+                                                            <label id="A5-subtotal-titulo" text="Subtotal" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="natural">
+                                                                <rect key="frame" x="13" y="0" width="174" height="20" />
+                                                                <fontDescription key="fontDescription" type="system" pointSize="16" />
+                                                            </label>
+                                                            <label id="A5-subtotal-valor" text="—" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="right">
+                                                                <rect key="frame" x="195" y="0" width="174" height="20" />
+                                                                <fontDescription key="fontDescription" type="system" pointSize="16" />
+                                                                <color key="textColor" systemColor="secondaryLabelColor" />
+                                                            </label>
+                                                        </subviews>
+                                                        <edgeInsets key="layoutMargins" top="0" left="13" bottom="0" right="13" />
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="44" id="A5-subtotal-row-height" relation="greaterThanOrEqual" />
+                                                        </constraints>
+                                                    </stackView>
+                                                    <view id="A5-sep-descuento" translatesAutoresizingMaskIntoConstraints="NO">
+                                                        <rect key="frame" x="0" y="44" width="382" height="1" />
+                                                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor" />
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="1" id="A5-sep-descuento-height" />
+                                                        </constraints>
+                                                    </view>
+                                                    <stackView id="A5-descuento-row" axis="horizontal" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" alignment="center" layoutMarginsRelativeArrangement="YES">
+                                                        <rect key="frame" x="0" y="45" width="382" height="44" />
+                                                        <subviews>
+                                                            <label id="A5-descuento-titulo" text="Descuento" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="natural">
+                                                                <rect key="frame" x="13" y="0" width="174" height="20" />
+                                                                <fontDescription key="fontDescription" type="system" pointSize="16" />
+                                                            </label>
+                                                            <label id="A5-descuento-valor" text="—" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="right">
+                                                                <rect key="frame" x="195" y="0" width="174" height="20" />
+                                                                <fontDescription key="fontDescription" type="system" pointSize="16" />
+                                                                <color key="textColor" systemColor="secondaryLabelColor" />
+                                                            </label>
+                                                        </subviews>
+                                                        <edgeInsets key="layoutMargins" top="0" left="13" bottom="0" right="13" />
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="44" id="A5-descuento-row-height" relation="greaterThanOrEqual" />
+                                                        </constraints>
+                                                    </stackView>
+                                                    <view id="A5-sep-igv" translatesAutoresizingMaskIntoConstraints="NO">
+                                                        <rect key="frame" x="0" y="89" width="382" height="1" />
+                                                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor" />
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="1" id="A5-sep-igv-height" />
+                                                        </constraints>
+                                                    </view>
+                                                    <stackView id="A5-igv-row" axis="horizontal" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" alignment="center" layoutMarginsRelativeArrangement="YES">
+                                                        <rect key="frame" x="0" y="90" width="382" height="44" />
+                                                        <subviews>
+                                                            <label id="A5-igv-titulo" text="IGV 18 %" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="natural">
+                                                                <rect key="frame" x="13" y="0" width="174" height="20" />
+                                                                <fontDescription key="fontDescription" type="system" pointSize="16" />
+                                                            </label>
+                                                            <label id="A5-igv-valor" text="—" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="right">
+                                                                <rect key="frame" x="195" y="0" width="174" height="20" />
+                                                                <fontDescription key="fontDescription" type="system" pointSize="16" />
+                                                                <color key="textColor" systemColor="secondaryLabelColor" />
+                                                            </label>
+                                                        </subviews>
+                                                        <edgeInsets key="layoutMargins" top="0" left="13" bottom="0" right="13" />
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="44" id="A5-igv-row-height" relation="greaterThanOrEqual" />
+                                                        </constraints>
+                                                    </stackView>
+                                                    <view id="A5-sep-total" translatesAutoresizingMaskIntoConstraints="NO">
+                                                        <rect key="frame" x="0" y="134" width="382" height="1" />
+                                                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor" />
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="1" id="A5-sep-total-height" />
+                                                        </constraints>
+                                                    </view>
+                                                    <stackView id="A5-total-row" axis="horizontal" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" alignment="center" layoutMarginsRelativeArrangement="YES">
+                                                        <rect key="frame" x="0" y="135" width="382" height="44" />
+                                                        <subviews>
+                                                            <label id="A5-total-titulo" text="Total" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="natural">
+                                                                <rect key="frame" x="13" y="0" width="174" height="20" />
+                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="16" />
+                                                            </label>
+                                                            <label id="A5-total-valor" text="—" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="right">
+                                                                <rect key="frame" x="195" y="0" width="174" height="20" />
+                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="16" />
+                                                            </label>
+                                                        </subviews>
+                                                        <edgeInsets key="layoutMargins" top="0" left="13" bottom="0" right="13" />
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="44" id="A5-total-row-height" relation="greaterThanOrEqual" />
+                                                        </constraints>
+                                                    </stackView>
+                                                </subviews>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" />
+                                            </stackView>
+                                            <label id="A5-aviso" text="" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="natural" hidden="YES">
+                                                <rect key="frame" x="0" y="445" width="382" height="0" />
+                                                <fontDescription key="fontDescription" type="system" pointSize="13" />
+                                                <color key="textColor" systemColor="secondaryLabelColor" />
+                                            </label>
+                                            <button buttonType="system" id="A5-guardar" translatesAutoresizingMaskIntoConstraints="NO" enabled="NO">
+                                                <rect key="frame" x="0" y="456" width="382" height="48" />
+                                                <buttonConfiguration key="configuration" style="filled" title="Registrar venta" />
+                                                <connections>
+                                                    <action selector="guardarTocado:" destination="A5" eventType="touchUpInside" id="A5-guardar-action" />
+                                                </connections>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="48" id="A5-guardar-height" />
+                                                </constraints>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="A5-stack" firstAttribute="top" secondItem="A5-content" secondAttribute="top" constant="4" id="A5-stack-top" />
+                                    <constraint firstItem="A5-stack" firstAttribute="leading" secondItem="A5-content" secondAttribute="leading" constant="16" id="A5-stack-leading" />
+                                    <constraint firstItem="A5-stack" firstAttribute="bottom" secondItem="A5-content" secondAttribute="bottom" constant="-20" id="A5-stack-bottom" />
+                                    <constraint firstItem="A5-stack" firstAttribute="trailing" secondItem="A5-content" secondAttribute="trailing" constant="-16" id="A5-stack-trailing" />
+                                    <constraint firstItem="A5-stack" firstAttribute="width" secondItem="A5-frame" secondAttribute="width" constant="-32" id="A5-width" />
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="A5-safe" />
+                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor" />
+                        <constraints>
+                            <constraint firstItem="A5-scroll" firstAttribute="top" secondItem="A5-safe" secondAttribute="top" constant="0" id="A5-scroll-top" />
+                            <constraint firstItem="A5-scroll" firstAttribute="leading" secondItem="A5-safe" secondAttribute="leading" constant="0" id="A5-scroll-leading" />
+                            <constraint firstItem="A5-scroll" firstAttribute="bottom" secondItem="A5-safe" secondAttribute="bottom" constant="0" id="A5-scroll-bottom" />
+                            <constraint firstItem="A5-scroll" firstAttribute="trailing" secondItem="A5-safe" secondAttribute="trailing" constant="0" id="A5-scroll-trailing" />
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Nueva venta" id="A5-navitem" />
+                    <connections>
+                        <outlet property="vendedorLabel" destination="A5-vendedorLabel" id="A5-vendedorLabel-outlet" />
+                        <outlet property="clienteBoton" destination="A5-clienteBoton" id="A5-clienteBoton-outlet" />
+                        <outlet property="productoBoton" destination="A5-productoBoton" id="A5-productoBoton-outlet" />
+                        <outlet property="cantidadLabel" destination="A5-cantidadLabel" id="A5-cantidadLabel-outlet" />
+                        <outlet property="cantidad" destination="A5-cantidad" id="A5-cantidad-outlet" />
+                        <outlet property="guardar" destination="A5-guardar" id="A5-guardar-outlet" />
+                        <outlet property="subtotalValor" destination="A5-subtotal-valor" id="A5-subtotal-valor-outlet" />
+                        <outlet property="descuentoValor" destination="A5-descuento-valor" id="A5-descuento-valor-outlet" />
+                        <outlet property="descuentoTitulo" destination="A5-descuento-titulo" id="A5-descuento-titulo-outlet" />
+                        <outlet property="igvValor" destination="A5-igv-valor" id="A5-igv-valor-outlet" />
+                        <outlet property="totalValor" destination="A5-total-valor" id="A5-total-valor-outlet" />
+                        <outlet property="aviso" destination="A5-aviso" id="A5-aviso-outlet" />
+                        <outlet property="vendedorIniciales" destination="A5-vendedorIniciales" id="A5-vendedorIniciales-outlet" />
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="A5-first" sceneMemberID="firstResponder" />
+            </objects>
+            <point key="canvasLocation" x="1020" y="1050" />
+        </scene>
+        <scene sceneID="A6-scene">
+            <objects>
+                <viewController id="A6" sceneMemberID="viewController" storyboardIdentifier="A6" customClass="MisVentasViewController" customModule="VentaTecsup12" customModuleProvider="target">
+                    <view key="view" contentMode="scaleToFill" id="A6-view">
+                        <rect key="frame" x="0" y="0" width="414" height="896" />
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" />
+                        <subviews>
+                            <stackView axis="vertical" spacing="9" translatesAutoresizingMaskIntoConstraints="NO" id="A6-stack">
+                                <rect key="frame" x="16" y="103" width="382" height="700" />
+                                <subviews>
+                                    <stackView axis="horizontal" spacing="10" id="A6-tarjetas" translatesAutoresizingMaskIntoConstraints="NO">
+                                        <rect key="frame" x="0" y="0" width="382" height="80" />
+                                    </stackView>
+                                    <segmentedControl selectedSegmentIndex="1" id="A6-periodo" translatesAutoresizingMaskIntoConstraints="NO">
+                                        <rect key="frame" x="0" y="89" width="382" height="34" />
+                                        <segments>
+                                            <segment title="Todas" />
+                                            <segment title="Hoy" />
+                                            <segment title="Mes" />
+                                        </segments>
+                                        <connections>
+                                            <action selector="actualizar:" destination="A6" eventType="valueChanged" id="A6-periodo-action" />
+                                        </connections>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="34" id="A6-periodo-height" />
+                                        </constraints>
+                                    </segmentedControl>
+                                    <textField placeholder="Buscar por cliente" borderStyle="none" id="A6-buscar" translatesAutoresizingMaskIntoConstraints="NO" customClass="BusquedaMaqueta" customModule="VentaTecsup12" customModuleProvider="target">
+                                        <rect key="frame" x="0" y="132" width="382" height="35" />
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" />
+                                        <connections>
+                                            <action selector="actualizar:" destination="A6" eventType="editingChanged" id="A6-buscar-action" />
+                                        </connections>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="35" id="A6-buscar-height" />
+                                        </constraints>
+                                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor" />
+                                    </textField>
+                                    <tableView style="plain" rowHeight="-1" estimatedRowHeight="72" id="A6-lista" translatesAutoresizingMaskIntoConstraints="NO" alwaysBounceVertical="NO">
+                                        <rect key="frame" x="0" y="176" width="382" height="430" />
+                                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor" />
+                                    </tableView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="A6-safe" />
+                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor" />
+                        <constraints>
+                            <constraint firstItem="A6-stack" firstAttribute="top" secondItem="A6-safe" secondAttribute="top" constant="4" id="A6-list-top" />
+                            <constraint firstItem="A6-stack" firstAttribute="leading" secondItem="A6-safe" secondAttribute="leading" constant="16" id="A6-list-leading" />
+                            <constraint firstItem="A6-stack" firstAttribute="bottom" secondItem="A6-safe" secondAttribute="bottom" constant="0" id="A6-list-bottom" />
+                            <constraint firstItem="A6-stack" firstAttribute="trailing" secondItem="A6-safe" secondAttribute="trailing" constant="-16" id="A6-list-trailing" />
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Mis ventas" id="A6-navitem" />
+                    <connections>
+                        <outlet property="tarjetas" destination="A6-tarjetas" id="A6-tarjetas-outlet" />
+                        <outlet property="periodo" destination="A6-periodo" id="A6-periodo-outlet" />
+                        <outlet property="buscar" destination="A6-buscar" id="A6-buscar-outlet" />
+                        <outlet property="lista" destination="A6-lista" id="A6-lista-outlet" />
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="A6-first" sceneMemberID="firstResponder" />
+            </objects>
+            <point key="canvasLocation" x="1530" y="1050" />
+        </scene>
+        <scene sceneID="A7-scene">
+            <objects>
+                <viewController id="A7" sceneMemberID="viewController" storyboardIdentifier="A7" customClass="VentasEquipoViewController" customModule="VentaTecsup12" customModuleProvider="target">
+                    <view key="view" contentMode="scaleToFill" id="A7-view">
+                        <rect key="frame" x="0" y="0" width="414" height="896" />
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" />
+                        <subviews>
+                            <stackView axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="A7-stack">
+                                <rect key="frame" x="16" y="103" width="382" height="700" />
+                                <subviews>
+                                    <segmentedControl selectedSegmentIndex="1" id="A7-periodo" translatesAutoresizingMaskIntoConstraints="NO">
+                                        <rect key="frame" x="0" y="0" width="382" height="34" />
+                                        <segments>
+                                            <segment title="Todas" />
+                                            <segment title="Hoy" />
+                                            <segment title="Mes" />
+                                        </segments>
+                                        <connections>
+                                            <action selector="actualizar:" destination="A7" eventType="valueChanged" id="A7-periodo-action" />
+                                        </connections>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="34" id="A7-periodo-height" />
+                                        </constraints>
+                                    </segmentedControl>
+                                    <scrollView showsHorizontalScrollIndicator="NO" id="A7-filtros" translatesAutoresizingMaskIntoConstraints="NO">
+                                        <rect key="frame" x="0" y="42" width="382" height="34" />
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="34" id="A7-filtros-height" />
+                                        </constraints>
+                                    </scrollView>
+                                    <textField placeholder="Buscar por cliente" borderStyle="none" id="A7-buscar" translatesAutoresizingMaskIntoConstraints="NO" customClass="BusquedaMaqueta" customModule="VentaTecsup12" customModuleProvider="target">
+                                        <rect key="frame" x="0" y="84" width="382" height="35" />
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" />
+                                        <connections>
+                                            <action selector="actualizar:" destination="A7" eventType="editingChanged" id="A7-buscar-action" />
+                                        </connections>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="35" id="A7-buscar-height" />
+                                        </constraints>
+                                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor" />
+                                    </textField>
+                                    <tableView style="plain" rowHeight="-1" estimatedRowHeight="72" id="A7-lista" translatesAutoresizingMaskIntoConstraints="NO" alwaysBounceVertical="NO">
+                                        <rect key="frame" x="0" y="127" width="382" height="430" />
+                                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor" />
+                                    </tableView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="A7-safe" />
+                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor" />
+                        <constraints>
+                            <constraint firstItem="A7-stack" firstAttribute="top" secondItem="A7-safe" secondAttribute="top" constant="4" id="A7-list-top" />
+                            <constraint firstItem="A7-stack" firstAttribute="leading" secondItem="A7-safe" secondAttribute="leading" constant="16" id="A7-list-leading" />
+                            <constraint firstItem="A7-stack" firstAttribute="bottom" secondItem="A7-safe" secondAttribute="bottom" constant="0" id="A7-list-bottom" />
+                            <constraint firstItem="A7-stack" firstAttribute="trailing" secondItem="A7-safe" secondAttribute="trailing" constant="-16" id="A7-list-trailing" />
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Ventas del equipo" id="A7-navitem" />
+                    <connections>
+                        <outlet property="periodo" destination="A7-periodo" id="A7-periodo-outlet" />
+                        <outlet property="filtros" destination="A7-filtros" id="A7-filtros-outlet" />
+                        <outlet property="buscar" destination="A7-buscar" id="A7-buscar-outlet" />
+                        <outlet property="lista" destination="A7-lista" id="A7-lista-outlet" />
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="A7-first" sceneMemberID="firstResponder" />
+            </objects>
+            <point key="canvasLocation" x="0" y="2100" />
+        </scene>
+        <scene sceneID="A8-scene">
+            <objects>
+                <viewController id="A8" sceneMemberID="viewController" storyboardIdentifier="A8" customClass="AnularVentaViewController" customModule="VentaTecsup12" customModuleProvider="target">
+                    <view key="view" contentMode="scaleToFill" id="A8-view">
+                        <rect key="frame" x="0" y="0" width="414" height="896" />
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" />
+                        <subviews>
+                            <stackView axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="A8-stack" layoutMarginsRelativeArrangement="YES">
+                                <rect key="frame" x="41" y="321" width="332" height="250" />
+                                <subviews>
+                                    <label id="A8-titulo" text="Anular venta" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="center">
+                                        <rect key="frame" x="16" y="16" width="300" height="20" />
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="19" />
+                                    </label>
+                                    <label text="Detalle de la venta" numberOfLines="0" textAlignment="center" id="A8-detalle" translatesAutoresizingMaskIntoConstraints="NO">
+                                        <rect key="frame" x="16" y="46" width="300" height="47" />
+                                        <fontDescription key="fontDescription" type="system" pointSize="14" />
+                                    </label>
+                                    <stackView id="A8-motivo-card" axis="vertical" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" layoutMarginsRelativeArrangement="YES" customClass="CampoMaqueta" customModule="VentaTecsup12" customModuleProvider="target">
+                                        <rect key="frame" x="16" y="103" width="300" height="64" />
+                                        <subviews>
+                                            <label id="A8-motivo-caption" text="MOTIVO (OBLIGATORIO)" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" textAlignment="natural">
+                                                <rect key="frame" x="14" y="9" width="272" height="20" />
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="11" />
+                                                <color key="textColor" systemColor="secondaryLabelColor" />
+                                            </label>
+                                            <textField borderStyle="none" id="A8-motivo" translatesAutoresizingMaskIntoConstraints="NO">
+                                                <rect key="frame" x="14" y="30" width="272" height="29" />
+                                                <textInputTraits key="textInputTraits" autocorrectionType="default" />
+                                                <connections>
+                                                    <action selector="actualizar:" destination="A8" eventType="editingChanged" id="A8-motivo-action" />
+                                                </connections>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="29" id="A8-motivo-height" relation="greaterThanOrEqual" />
+                                                </constraints>
+                                            </textField>
+                                        </subviews>
+                                        <edgeInsets key="layoutMargins" top="9" left="14" bottom="9" right="14" />
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" />
+                                    </stackView>
+                                    <view id="A8-separador" translatesAutoresizingMaskIntoConstraints="NO">
+                                        <rect key="frame" x="16" y="177" width="300" height="1" />
+                                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor" />
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="A8-separador-height" />
+                                        </constraints>
+                                    </view>
+                                    <stackView id="A8-botones" axis="horizontal" spacing="0" translatesAutoresizingMaskIntoConstraints="NO" distribution="fillEqually">
+                                        <rect key="frame" x="16" y="188" width="300" height="88" />
+                                        <subviews>
+                                            <button buttonType="system" id="A8-cancelar" translatesAutoresizingMaskIntoConstraints="NO">
+                                                <rect key="frame" x="0" y="0" width="150" height="44" />
+                                                <buttonConfiguration key="configuration" style="plain" title="Cancelar" />
+                                                <connections>
+                                                    <action selector="cancelarTocado:" destination="A8" eventType="touchUpInside" id="A8-cancelar-action" />
+                                                </connections>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="A8-cancelar-height" />
+                                                </constraints>
+                                            </button>
+                                            <button buttonType="system" id="A8-guardar" translatesAutoresizingMaskIntoConstraints="NO" enabled="NO">
+                                                <rect key="frame" x="150" y="0" width="150" height="44" />
+                                                <buttonConfiguration key="configuration" style="plain" title="Anular">
+                                                    <color key="baseBackgroundColor" systemColor="systemRedColor" />
+                                                </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="guardarTocado:" destination="A8" eventType="touchUpInside" id="A8-guardar-action" />
+                                                </connections>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="A8-guardar-height" />
+                                                </constraints>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <edgeInsets key="layoutMargins" top="16" left="16" bottom="0" right="16" />
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" />
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="A8-safe" />
+                        <color key="backgroundColor" white="0" alpha="0.38" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace" />
+                        <constraints>
+                            <constraint firstItem="A8-stack" firstAttribute="centerX" constant="0" id="A8-modal-0" secondItem="A8-safe" secondAttribute="centerX" />
+                            <constraint firstItem="A8-stack" firstAttribute="centerY" constant="0" id="A8-modal-1" secondItem="A8-safe" secondAttribute="centerY" priority="750" />
+                            <constraint firstItem="A8-stack" firstAttribute="width" constant="332" id="A8-modal-2" relation="lessThanOrEqual" />
+                            <constraint firstItem="A8-stack" firstAttribute="leading" constant="32" id="A8-modal-3" secondItem="A8-safe" secondAttribute="leading" relation="greaterThanOrEqual" />
+                            <constraint firstItem="A8-stack" firstAttribute="trailing" constant="-32" id="A8-modal-4" secondItem="A8-safe" secondAttribute="trailing" relation="lessThanOrEqual" />
+                            <constraint firstItem="A8-stack" firstAttribute="leading" constant="32" id="A8-modal-5" secondItem="A8-safe" secondAttribute="leading" priority="750" />
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Anular venta" id="A8-navitem" />
+                    <connections>
+                        <outlet property="detalle" destination="A8-detalle" id="A8-detalle-outlet" />
+                        <outlet property="motivo" destination="A8-motivo" id="A8-motivo-outlet" />
+                        <outlet property="guardar" destination="A8-guardar" id="A8-guardar-outlet" />
+                        <outlet property="cancelar" destination="A8-cancelar" id="A8-cancelar-outlet" />
+                        <outlet property="panel" destination="A8-stack" id="A8-stack-outlet" />
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="A8-first" sceneMemberID="firstResponder" />
+            </objects>
+            <point key="canvasLocation" x="510" y="2100" />
+        </scene>
+        <scene sceneID="A9-scene">
+            <objects>
+                <viewController id="A9" sceneMemberID="viewController" storyboardIdentifier="A9" customClass="ResumenSupervisorViewController" customModule="VentaTecsup12" customModuleProvider="target">
+                    <view key="view" contentMode="scaleToFill" id="A9-view">
+                        <rect key="frame" x="0" y="0" width="414" height="896" />
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" />
+                        <subviews>
+                            <scrollView id="A9-scroll" translatesAutoresizingMaskIntoConstraints="NO" keyboardDismissMode="onDrag">
+                                <rect key="frame" x="0" y="59" width="414" height="802" />
+                                <viewLayoutGuide key="contentLayoutGuide" id="A9-content" />
+                                <viewLayoutGuide key="frameLayoutGuide" id="A9-frame" />
+                                <subviews>
+                                    <stackView axis="vertical" spacing="11" translatesAutoresizingMaskIntoConstraints="NO" id="A9-stack">
+                                        <rect key="frame" x="16" y="24" width="382" height="300" />
+                                        <subviews>
+                                            <stackView axis="vertical" spacing="10" id="A9-lista" translatesAutoresizingMaskIntoConstraints="NO">
+                                                <rect key="frame" x="0" y="0" width="382" height="300" />
+                                            </stackView>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="A9-stack" firstAttribute="top" secondItem="A9-content" secondAttribute="top" constant="8" id="A9-stack-top" />
+                                    <constraint firstItem="A9-stack" firstAttribute="leading" secondItem="A9-content" secondAttribute="leading" constant="16" id="A9-stack-leading" />
+                                    <constraint firstItem="A9-stack" firstAttribute="bottom" secondItem="A9-content" secondAttribute="bottom" constant="-20" id="A9-stack-bottom" />
+                                    <constraint firstItem="A9-stack" firstAttribute="trailing" secondItem="A9-content" secondAttribute="trailing" constant="-16" id="A9-stack-trailing" />
+                                    <constraint firstItem="A9-stack" firstAttribute="width" secondItem="A9-frame" secondAttribute="width" constant="-32" id="A9-width" />
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="A9-safe" />
+                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor" />
+                        <constraints>
+                            <constraint firstItem="A9-scroll" firstAttribute="top" secondItem="A9-safe" secondAttribute="top" constant="0" id="A9-scroll-top" />
+                            <constraint firstItem="A9-scroll" firstAttribute="leading" secondItem="A9-safe" secondAttribute="leading" constant="0" id="A9-scroll-leading" />
+                            <constraint firstItem="A9-scroll" firstAttribute="bottom" secondItem="A9-safe" secondAttribute="bottom" constant="0" id="A9-scroll-bottom" />
+                            <constraint firstItem="A9-scroll" firstAttribute="trailing" secondItem="A9-safe" secondAttribute="trailing" constant="0" id="A9-scroll-trailing" />
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Resumen del supervisor" id="A9-navitem" />
+                    <connections>
+                        <outlet property="lista" destination="A9-lista" id="A9-lista-outlet" />
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="A9-first" sceneMemberID="firstResponder" />
+            </objects>
+            <point key="canvasLocation" x="1020" y="2100" />
+        </scene>
+        <scene sceneID="Cuenta-scene">
+            <objects>
+                <viewController id="Cuenta" sceneMemberID="viewController" storyboardIdentifier="Cuenta" customClass="CuentaViewController" customModule="VentaTecsup12" customModuleProvider="target">
+                    <view key="view" contentMode="scaleToFill" id="Cuenta-view">
+                        <rect key="frame" x="0" y="0" width="414" height="896" />
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" />
+                        <subviews>
+                            <scrollView id="Cuenta-scroll" translatesAutoresizingMaskIntoConstraints="NO" keyboardDismissMode="onDrag">
+                                <rect key="frame" x="0" y="59" width="414" height="802" />
+                                <viewLayoutGuide key="contentLayoutGuide" id="Cuenta-content" />
+                                <viewLayoutGuide key="frameLayoutGuide" id="Cuenta-frame" />
+                                <subviews>
+                                    <stackView axis="vertical" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="Cuenta-stack">
+                                        <rect key="frame" x="20" y="24" width="374" height="64" />
+                                        <subviews>
+                                            <label text="Datos de la sesión" numberOfLines="0" textAlignment="natural" id="Cuenta-detalle" translatesAutoresizingMaskIntoConstraints="NO">
+                                                <rect key="frame" x="0" y="0" width="374" height="20" />
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody" />
+                                            </label>
+                                            <button buttonType="system" id="Cuenta-salir" translatesAutoresizingMaskIntoConstraints="NO">
+                                                <rect key="frame" x="0" y="34" width="374" height="44" />
+                                                <buttonConfiguration key="configuration" style="filled" title="Cerrar sesión">
+                                                    <color key="baseBackgroundColor" systemColor="systemRedColor" />
+                                                </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="salirTocado:" destination="Cuenta" eventType="touchUpInside" id="Cuenta-salir-action" />
+                                                </connections>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="Cuenta-salir-height" />
+                                                </constraints>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="Cuenta-stack" firstAttribute="top" secondItem="Cuenta-content" secondAttribute="top" constant="20" id="Cuenta-stack-top" />
+                                    <constraint firstItem="Cuenta-stack" firstAttribute="leading" secondItem="Cuenta-content" secondAttribute="leading" constant="20" id="Cuenta-stack-leading" />
+                                    <constraint firstItem="Cuenta-stack" firstAttribute="bottom" secondItem="Cuenta-content" secondAttribute="bottom" constant="-20" id="Cuenta-stack-bottom" />
+                                    <constraint firstItem="Cuenta-stack" firstAttribute="trailing" secondItem="Cuenta-content" secondAttribute="trailing" constant="-20" id="Cuenta-stack-trailing" />
+                                    <constraint firstItem="Cuenta-stack" firstAttribute="width" secondItem="Cuenta-frame" secondAttribute="width" constant="-40" id="Cuenta-width" />
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Cuenta-safe" />
+                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor" />
+                        <constraints>
+                            <constraint firstItem="Cuenta-scroll" firstAttribute="top" secondItem="Cuenta-safe" secondAttribute="top" constant="0" id="Cuenta-scroll-top" />
+                            <constraint firstItem="Cuenta-scroll" firstAttribute="leading" secondItem="Cuenta-safe" secondAttribute="leading" constant="0" id="Cuenta-scroll-leading" />
+                            <constraint firstItem="Cuenta-scroll" firstAttribute="bottom" secondItem="Cuenta-safe" secondAttribute="bottom" constant="0" id="Cuenta-scroll-bottom" />
+                            <constraint firstItem="Cuenta-scroll" firstAttribute="trailing" secondItem="Cuenta-safe" secondAttribute="trailing" constant="0" id="Cuenta-scroll-trailing" />
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Cuenta" id="Cuenta-navitem" />
+                    <connections>
+                        <outlet property="detalle" destination="Cuenta-detalle" id="Cuenta-detalle-outlet" />
+                        <outlet property="salir" destination="Cuenta-salir" id="Cuenta-salir-outlet" />
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Cuenta-first" sceneMemberID="firstResponder" />
+            </objects>
+            <point key="canvasLocation" x="1530" y="2100" />
         </scene>
     </scenes>
+    <resources>
+        <systemColor name="systemGroupedBackgroundColor">
+            <color red="0.949" green="0.949" blue="0.969" alpha="1" colorSpace="custom" customColorSpace="sRGB" />
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23" blue="0.19" alpha="1" colorSpace="custom" customColorSpace="sRGB" />
+        </systemColor>
+        <image name="cart.fill" catalog="system" width="128" height="102" />
+        <systemColor name="secondaryLabelColor">
+            <color red="0.36" green="0.36" blue="0.39" alpha="1" colorSpace="custom" customColorSpace="sRGB" />
+        </systemColor>
+        <systemColor name="labelColor">
+            <color red="0" green="0" blue="0" alpha="1" colorSpace="custom" customColorSpace="sRGB" />
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace" />
+        </systemColor>
+    </resources>
 </document>
